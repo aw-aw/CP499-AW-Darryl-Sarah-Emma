@@ -1,7 +1,17 @@
 THESE ARE IMPORTANT COMMANDS FOR THE DEVS
 
+Log into ssh server (MAC):
+
+* ssh username@qrc-server.coloradocollege.edu
+
+
 Once logged into ssh server:
 
 * start apache server: sudo apachectl start
 * stop apache server: sudo apachectl stop
 * restart apache server: sudo apachectl restart
+
+
+Upload file to server:
+
+* scp [filename] username@qrc-server.coloradocollege.edu:[directory]
