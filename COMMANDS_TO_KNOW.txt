@@ -1,0 +1,7 @@
+THESE ARE IMPORTANT COMMANDS FOR THE DEVS
+
+Once logged into ssh server:
+
+* start apache server: sudo apachectl start
+* stop apache server: sudo apachectl stop
+* restart apache server: sudo apachectl restart
