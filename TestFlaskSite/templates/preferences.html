@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>QRCcal</title>
+
+
+    <link href="http://getbootstrap.com/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <link href="http://getbootstrap.com/examples/jumbotron-narrow/jumbotron-narrow.css" rel="stylesheet">
+    <link href="../static/css/signup.css" rel="stylesheet">
+    <script src="../static/js/jquery-1.11.2.js"></script>
+    <script src="../static/js/signUp.js"></script>
+
+  </head>
+
+  <body>
+
+    <div class="container">
+      <div class="header">
+        <nav>
+          <ul class="nav nav-pills pull-right">
+            <li role="presentation" ><a href="/">Home</a></li>
+            <li role="presentation" class="active"><a href="profile">Profile</a></li>
+          </ul>
+        </nav>
+        <h3 class="text-muted">Python Flask App</h3>
+      </div>
+
+      <div class="jumbotron">
+        <h1>Preferences</h1>
+        <form class="form-signin">
+        <label for="inputTime" class="sr-only">Enter Time</label>
+        <input type="name" name="inputTime" id="inputTime" class="form-control" placeholder="Time" required autofocus>
+        <label for="inputDay" class="sr-only">Enter Day</label>
+        <input type="email" name="inputDay" id="inputDay" class="form-control" placeholder="Day" required autofocus>
+        <label for="inputDiscipline" class="sr-only">Enter Discipline</label>
+        <input type="password" name="inputDiscipline" id="inputDiscipline" class="form-control" placeholder="Discipline" required>
+
+        <button id="btnSignUp" class="btn btn-lg btn-primary btn-block" type="button">Add Preference</button>
+      </form>
+      </div>
+
+
+
+      <footer class="footer">
+        <p>&copy; Software Project Test Site</p>
+      </footer>
+
+    </div>
+  </body>
+</html>
