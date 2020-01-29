@@ -4,22 +4,21 @@ Log into ssh server (MAC):
 
 * ssh username@qrc-server.coloradocollege.edu
 
-
 Once logged into ssh server:
 
 * start apache server: sudo apachectl start
 * stop apache server: sudo apachectl stop
 * restart apache server: sudo apachectl restart
 
-
 Upload file to server:
 
 * scp [filename] username@qrc-server.coloradocollege.edu:[directory]
 
-
-MariaDB
+MariaDB on server:
 
 * start MariaDB: sudo systemctl start mariadb.service 
+* stop MariaDB: sudo systemctl stop mariadb.service
+* check status: systemctl status mariadb.service
 * mysql -u root -p: login to root user
 	* password: press enter
 
