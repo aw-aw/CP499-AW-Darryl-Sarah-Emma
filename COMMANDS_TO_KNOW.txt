@@ -15,3 +15,11 @@ Once logged into ssh server:
 Upload file to server:
 
 * scp [filename] username@qrc-server.coloradocollege.edu:[directory]
+
+
+MariaDB
+
+* start MariaDB: sudo systemctl start mariadb.service 
+* mysql -u root -p: login to root user
+	* password: press enter
+
