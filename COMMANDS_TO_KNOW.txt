@@ -4,6 +4,10 @@ Log into ssh server (MAC):
 
 * ssh username@qrc-server.coloradocollege.edu
 
+Changing from Test Server (AwApp) to Live Server (QRCcal):
+* sudo nano /etc/httpd/conf/httpd.conf
+* Find and replace "AwApp" to "QRCcal" or vice versa
+
 Once logged into ssh server:
 
 * start apache server: sudo apachectl start
@@ -16,9 +20,8 @@ Upload file to server:
 
 MariaDB on server:
 
-* start MariaDB: sudo systemctl start mariadb.service 
+* start MariaDB: sudo systemctl start mariadb.service
 * stop MariaDB: sudo systemctl stop mariadb.service
 * check status: systemctl status mariadb.service
 * mysql -u root -p: login to root user
 	* password: press enter
-
