@@ -1,5 +1,5 @@
 #!/usr/bin/python
-from flask import Flask, render_template, json, request, session
+from flask import Flask, render_template, json, request, session,jsonify
 from flask_cas import CAS
 from flask_cas import login_required
 from flask_cas import login
@@ -218,21 +218,30 @@ for row in cursor:
             tutor.busy.append(shift)
             break
 
-tutor_list = schedule_tutors(tutor_list)
+# tutor_list = schedule_tutors(tutor_list)
 # for tutor in tutor_list:
 #     print (tutor.username, tutor.tie_breaker, tutor.scheduled_shifts)
 
-# app = Flask(__name__, static_folder="../react_frontend/build/static", template_folder="../react_frontend/build")
-# cas = CAS(app)
-# app.config['CAS_SERVER'] = 'https://cas.coloradocollege.edu/cas/'
-# app.config['CAS_AFTER_LOGIN'] = 'index'
-#
-# @app.route('/')
-# def index():
-#     return render_template('index.html')
-#
-# if __name__=="__main__":
-#     app.secret_key = 'super secret key'
-#     app.config['SESSION_TYPE'] = 'filesystem'
-#     app.debug = True
-#     app.run()
+app = Flask(__name__, static_folder="../react_frontend/build/static", template_folder="../react_frontend/build")
+cas = CAS(app)
+app.config['CAS_SERVER'] = 'https://cas.coloradocollege.edu/cas/'
+app.config['CAS_AFTER_LOGIN'] = 'index'
+
+@app.route('/')
+def index():
+    return render_template('index.html')
+
+@app.route('/grabShifts',methods=['GET', 'POST'])
+def grab_shifts():
+    cursor.execute("SELECT * FROM preferredShifts WHERE shift='MON2';")
+    string=''
+    for row in cursor:
+        string+=row[2].encode('ascii','ignore')
+        string+=row[1].encode('ascii','ignore')
+    return jsonify(string)
+
+if __name__=="__main__":
+    app.secret_key = 'super secret key'
+    app.config['SESSION_TYPE'] = 'filesystem'
+    app.debug = True
+    app.run()
