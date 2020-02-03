@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import SettingsIcon from '@material-ui/icons/Settings';
 import { Avatar } from "@material-ui/core";
 import { Button, Box } from "@material-ui/core";
 import {
@@ -16,7 +15,10 @@ class Main extends Component {
     return (
       <BrowserRouter>
         <div>
-          <Button color="secondary"><Avatar><SettingsIcon /></Avatar></Button>
+          <p>
+            <Button color="secondary"><Avatar>HI</Avatar></Button>
+            <Button color="primary" variant="contained" href="https://www.coloradocollege.edu/offices/qrc/">Colorado College QRC Page</Button>
+          </p>
           <h1 id="sitetitle">QRCcal</h1>
           <ul className="header">
             <li><NavLink exact to="/">Home</NavLink></li>
