@@ -5,8 +5,7 @@ class Profile extends Component {
     return (
       <div>
         <h2>Set Profile Settings</h2>
-        <p>HELP</p>
-
+        <p></p>
       </div>
     );
   }

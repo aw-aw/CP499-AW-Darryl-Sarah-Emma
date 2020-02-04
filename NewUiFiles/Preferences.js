@@ -12,9 +12,13 @@ import { createMuiTheme } from '@material-ui/core/styles';
 import ThemeProvider from '@material-ui/styles/ThemeProvider';
 import orange from '@material-ui/core/colors/purple';
 import moment from "moment";
+import SaveIcon from '@material-ui/icons/Save';
 import { makeStyles } from '@material-ui/core/styles';
 import "./Home.css";
 import { borders } from '@material-ui/system';
+import { FormControl } from '@material-ui/core';
+import { NativeSelect } from '@material-ui/core';
+import { MenuItem, Select, InputLabel, FormHelperText } from '@material-ui/core';
 
 const theme = createMuiTheme({
   tableCell: {
@@ -41,6 +45,7 @@ class Preferences extends Component {
     return (
       <div>
       <ThemeProvider theme={theme}>
+      <h1 align="center">Block 6 Preferred  Shifts</h1>
         <Grid container spacing={2}>
           <Grid item xs>
             <p>Monday: {moment().isoWeekday(1).format('MM/DD')}</p>
@@ -48,12 +53,21 @@ class Preferences extends Component {
                 <Popup trigger={<Button size="large" color="primary" borderColor="secondary.main" variant="outlined" fullWidth="true">2-4</Button>} modal={true}>
                   {close => (
                     <div>
-                      <h2 id="shifttitle">Preferred Shifts</h2>
-                      <p><Button startIcon={<AddCircleIcon/>}>Add Preference</Button></p>
-                      <p id="shiftpopup">
-                        Put Monday 2-4 preferred shifts from database
-                        with tutors and their disciplines here.
-                      </p>
+                      <h4>Current Preferences Entered By Tutors:</h4>
+                      <p>Put list of preferred shifts here: (users: discipline)</p>
+                      <h4>Add Preferred Shift</h4>
+                      <Grid item xs>
+                        <FormControl style={{minWidth: 200}}>
+                          <InputLabel>Discipline</InputLabel>
+                          <Select color="primary" variant="outlined">
+                            <MenuItem>Computer Science</MenuItem>
+                            <MenuItem>Mathmematics</MenuItem>
+                            <MenuItem>Physics</MenuItem>
+                          </Select>
+                          <FormHelperText>Required</FormHelperText>
+                          <Button size="medium" color="primary" vairant="filled" startIcon={<SaveIcon />}>save</Button>
+                        </FormControl>
+                      </Grid>
                     </div>
                   )}
                 </Popup>
@@ -63,10 +77,21 @@ class Preferences extends Component {
                 <Popup trigger={<Button size="large" color="primary" borderColor="secondary.main" variant="outlined" fullWidth="true">4-6</Button>} modal={true}>
                   {close => (
                     <div>
-                      <h2 id="shifttitle">Scheduled Shifts</h2>
-                      <p id="shiftpopup">Put Monday 4-6 shifts from database
-                        with tutors and their disiplines here.
-                      </p>
+                      <h4>Current Preferences Entered By Tutors:</h4>
+                      <p>Put list of preferred shifts here: (users: discipline)</p>
+                      <h4>Add Preferred Shift</h4>
+                      <Grid item xs>
+                        <FormControl style={{minWidth: 200}}>
+                          <InputLabel>Discipline</InputLabel>
+                          <Select color="primary" variant="outlined">
+                            <MenuItem>Computer Science</MenuItem>
+                            <MenuItem>Mathmematics</MenuItem>
+                            <MenuItem>Physics</MenuItem>
+                          </Select>
+                          <FormHelperText>Required</FormHelperText>
+                          <Button size="medium" color="primary" vairant="filled" startIcon={<SaveIcon />}>save</Button>
+                        </FormControl>
+                      </Grid>
                     </div>
                   )}
                 </Popup>
@@ -76,10 +101,21 @@ class Preferences extends Component {
                 <Popup trigger={<Button size="large" color="primary" borderColor="secondary.main" variant="outlined" fullWidth="true">6-8</Button>} modal={true}>
                   {close => (
                     <div>
-                      <h2 id="shifttitle">Scheduled Shifts</h2>
-                      <p id="shiftpopup">Put Monday 6-8 shifts from database
-                        with tutors and their disiplines here.
-                      </p>
+                      <h4>Current Preferences Entered By Tutors:</h4>
+                      <p>Put list of preferred shifts here: (users: discipline)</p>
+                      <h4>Add Preferred Shift</h4>
+                      <Grid item xs>
+                        <FormControl style={{minWidth: 200}}>
+                          <InputLabel>Discipline</InputLabel>
+                          <Select color="primary" variant="outlined">
+                            <MenuItem>Computer Science</MenuItem>
+                            <MenuItem>Mathmematics</MenuItem>
+                            <MenuItem>Physics</MenuItem>
+                          </Select>
+                          <FormHelperText>Required</FormHelperText>
+                          <Button size="medium" color="primary" vairant="filled" startIcon={<SaveIcon />}>save</Button>
+                        </FormControl>
+                      </Grid>
                     </div>
                   )}
                 </Popup>
@@ -89,10 +125,21 @@ class Preferences extends Component {
                 <Popup trigger={<Button size="large" color="primary" borderColor="secondary.main" variant="outlined" fullWidth="true">8-10</Button>} modal={true}>
                   {close => (
                     <div>
-                      <h2 id="shifttitle">Scheduled Shifts</h2>
-                      <p id="shiftpopup">Put Monday 8-10 shifts from database
-                        with tutors and their disiplines here.
-                      </p>
+                      <h4>Current Preferences Entered By Tutors:</h4>
+                      <p>Put list of preferred shifts here: (users: discipline)</p>
+                      <h4>Add Preferred Shift</h4>
+                      <Grid item xs>
+                        <FormControl style={{minWidth: 200}}>
+                          <InputLabel>Discipline</InputLabel>
+                          <Select color="primary" variant="outlined">
+                            <MenuItem>Computer Science</MenuItem>
+                            <MenuItem>Mathmematics</MenuItem>
+                            <MenuItem>Physics</MenuItem>
+                          </Select>
+                          <FormHelperText>Required</FormHelperText>
+                          <Button size="medium" color="primary" vairant="filled" startIcon={<SaveIcon />}>save</Button>
+                        </FormControl>
+                      </Grid>
                     </div>
                   )}
                 </Popup>
@@ -104,10 +151,21 @@ class Preferences extends Component {
                 <Popup trigger={<Button size="large" color="primary" borderColor="secondary.main" variant="outlined" fullWidth="true">2-4</Button>} modal={true}>
                   {close => (
                     <div>
-                      <h2 id="shifttitle">Scheduled Shifts</h2>
-                      <p id="shiftpopup">Put Monday 2-4 shifts from database
-                        with tutors and their disiplines here.
-                      </p>
+                      <h4>Current Preferences Entered By Tutors:</h4>
+                      <p>Put list of preferred shifts here: (users: discipline)</p>
+                      <h4>Add Preferred Shift</h4>
+                      <Grid item xs>
+                        <FormControl style={{minWidth: 200}}>
+                          <InputLabel>Discipline</InputLabel>
+                          <Select color="primary" variant="outlined">
+                            <MenuItem>Computer Science</MenuItem>
+                            <MenuItem>Mathmematics</MenuItem>
+                            <MenuItem>Physics</MenuItem>
+                          </Select>
+                          <FormHelperText>Required</FormHelperText>
+                          <Button size="medium" color="primary" vairant="filled" startIcon={<SaveIcon />}>save</Button>
+                        </FormControl>
+                      </Grid>
                     </div>
                   )}
                 </Popup>
@@ -117,10 +175,21 @@ class Preferences extends Component {
                 <Popup trigger={<Button size="large" color="primary" borderColor="secondary.main" variant="outlined" fullWidth="true">4-6</Button>} modal={true}>
                   {close => (
                     <div>
-                      <h2 id="shifttitle">Scheduled Shifts</h2>
-                      <p id="shiftpopup">Put Monday 4-6 shifts from database
-                        with tutors and their disiplines here.
-                      </p>
+                      <h4>Current Preferences Entered By Tutors:</h4>
+                      <p>Put list of preferred shifts here: (users: discipline)</p>
+                      <h4>Add Preferred Shift</h4>
+                      <Grid item xs>
+                        <FormControl style={{minWidth: 200}}>
+                          <InputLabel>Discipline</InputLabel>
+                          <Select color="primary" variant="outlined">
+                            <MenuItem>Computer Science</MenuItem>
+                            <MenuItem>Mathmematics</MenuItem>
+                            <MenuItem>Physics</MenuItem>
+                          </Select>
+                          <FormHelperText>Required</FormHelperText>
+                          <Button size="medium" color="primary" vairant="filled" startIcon={<SaveIcon />}>save</Button>
+                        </FormControl>
+                      </Grid>
                     </div>
                   )}
                 </Popup>
@@ -130,10 +199,21 @@ class Preferences extends Component {
                 <Popup trigger={<Button size="large" color="primary" borderColor="secondary.main" variant="outlined" fullWidth="true">6-8</Button>} modal={true}>
                   {close => (
                     <div>
-                      <h2 id="shifttitle">Scheduled Shifts</h2>
-                      <p id="shiftpopup">Put Monday 6-8 shifts from database
-                        with tutors and their disiplines here.
-                      </p>
+                      <h4>Current Preferences Entered By Tutors:</h4>
+                      <p>Put list of preferred shifts here: (users: discipline)</p>
+                      <h4>Add Preferred Shift</h4>
+                      <Grid item xs>
+                        <FormControl style={{minWidth: 200}}>
+                          <InputLabel>Discipline</InputLabel>
+                          <Select color="primary" variant="outlined">
+                            <MenuItem>Computer Science</MenuItem>
+                            <MenuItem>Mathmematics</MenuItem>
+                            <MenuItem>Physics</MenuItem>
+                          </Select>
+                          <FormHelperText>Required</FormHelperText>
+                          <Button size="medium" color="primary" vairant="filled" startIcon={<SaveIcon />}>save</Button>
+                        </FormControl>
+                      </Grid>
                     </div>
                   )}
                 </Popup>
@@ -143,10 +223,21 @@ class Preferences extends Component {
                 <Popup trigger={<Button size="large" color="primary" borderColor="secondary.main" variant="outlined" fullWidth="true">8-10</Button>} modal={true}>
                   {close => (
                     <div>
-                      <h2 id="shifttitle">Scheduled Shifts</h2>
-                      <p id="shiftpopup">Put Monday 8-10 shifts from database
-                        with tutors and their disiplines here.
-                      </p>
+                      <h4>Current Preferences Entered By Tutors:</h4>
+                      <p>Put list of preferred shifts here: (users: discipline)</p>
+                      <h4>Add Preferred Shift</h4>
+                      <Grid item xs>
+                        <FormControl style={{minWidth: 200}}>
+                          <InputLabel>Discipline</InputLabel>
+                          <Select color="primary" variant="outlined">
+                            <MenuItem>Computer Science</MenuItem>
+                            <MenuItem>Mathmematics</MenuItem>
+                            <MenuItem>Physics</MenuItem>
+                          </Select>
+                          <FormHelperText>Required</FormHelperText>
+                          <Button size="medium" color="primary" vairant="filled" startIcon={<SaveIcon />}>save</Button>
+                        </FormControl>
+                      </Grid>
                     </div>
                   )}
                 </Popup>
@@ -158,10 +249,21 @@ class Preferences extends Component {
                 <Popup trigger={<Button size="large" color="primary" borderColor="secondary.main" variant="outlined" fullWidth="true">2-4</Button>} modal={true}>
                   {close => (
                     <div>
-                      <h2 id="shifttitle">Scheduled Shifts</h2>
-                      <p id="shiftpopup">Put Monday 2-4 shifts from database
-                        with tutors and their disiplines here.
-                      </p>
+                      <h4>Current Preferences Entered By Tutors:</h4>
+                      <p>Put list of preferred shifts here: (users: discipline)</p>
+                      <h4>Add Preferred Shift</h4>
+                      <Grid item xs>
+                        <FormControl style={{minWidth: 200}}>
+                          <InputLabel>Discipline</InputLabel>
+                          <Select color="primary" variant="outlined">
+                            <MenuItem>Computer Science</MenuItem>
+                            <MenuItem>Mathmematics</MenuItem>
+                            <MenuItem>Physics</MenuItem>
+                          </Select>
+                          <FormHelperText>Required</FormHelperText>
+                          <Button size="medium" color="primary" vairant="filled" startIcon={<SaveIcon />}>save</Button>
+                        </FormControl>
+                      </Grid>
                     </div>
                   )}
                 </Popup>
@@ -171,10 +273,21 @@ class Preferences extends Component {
                 <Popup trigger={<Button size="large" color="primary" borderColor="secondary.main" variant="outlined" fullWidth="true">4-6</Button>} modal={true}>
                   {close => (
                     <div>
-                      <h2 id="shifttitle">Scheduled Shifts</h2>
-                      <p id="shiftpopup">Put Monday 4-6 shifts from database
-                        with tutors and their disiplines here.
-                      </p>
+                      <h4>Current Preferences Entered By Tutors:</h4>
+                      <p>Put list of preferred shifts here: (users: discipline)</p>
+                      <h4>Add Preferred Shift</h4>
+                      <Grid item xs>
+                        <FormControl style={{minWidth: 200}}>
+                          <InputLabel>Discipline</InputLabel>
+                          <Select color="primary" variant="outlined">
+                            <MenuItem>Computer Science</MenuItem>
+                            <MenuItem>Mathmematics</MenuItem>
+                            <MenuItem>Physics</MenuItem>
+                          </Select>
+                          <FormHelperText>Required</FormHelperText>
+                          <Button size="medium" color="primary" vairant="filled" startIcon={<SaveIcon />}>save</Button>
+                        </FormControl>
+                      </Grid>
                     </div>
                   )}
                 </Popup>
@@ -184,10 +297,21 @@ class Preferences extends Component {
                 <Popup trigger={<Button size="large" color="primary" borderColor="secondary.main" variant="outlined" fullWidth="true">6-8</Button>} modal={true}>
                   {close => (
                     <div>
-                      <h2 id="shifttitle">Scheduled Shifts</h2>
-                      <p id="shiftpopup">Put Monday 6-8 shifts from database
-                        with tutors and their disiplines here.
-                      </p>
+                      <h4>Current Preferences Entered By Tutors:</h4>
+                      <p>Put list of preferred shifts here: (users: discipline)</p>
+                      <h4>Add Preferred Shift</h4>
+                      <Grid item xs>
+                        <FormControl style={{minWidth: 200}}>
+                          <InputLabel>Discipline</InputLabel>
+                          <Select color="primary" variant="outlined">
+                            <MenuItem>Computer Science</MenuItem>
+                            <MenuItem>Mathmematics</MenuItem>
+                            <MenuItem>Physics</MenuItem>
+                          </Select>
+                          <FormHelperText>Required</FormHelperText>
+                          <Button size="medium" color="primary" vairant="filled" startIcon={<SaveIcon />}>save</Button>
+                        </FormControl>
+                      </Grid>
                     </div>
                   )}
                 </Popup>
@@ -197,10 +321,21 @@ class Preferences extends Component {
                 <Popup trigger={<Button size="large" color="primary" borderColor="secondary.main" variant="outlined" fullWidth="true">8-10</Button>} modal={true}>
                   {close => (
                     <div>
-                      <h2 id="shifttitle">Scheduled Shifts</h2>
-                      <p id="shiftpopup">Put Monday 8-10 shifts from database
-                        with tutors and their disiplines here.
-                      </p>
+                      <h4>Current Preferences Entered By Tutors:</h4>
+                      <p>Put list of preferred shifts here: (users: discipline)</p>
+                      <h4>Add Preferred Shift</h4>
+                      <Grid item xs>
+                        <FormControl style={{minWidth: 200}}>
+                          <InputLabel>Discipline</InputLabel>
+                          <Select color="primary" variant="outlined">
+                            <MenuItem>Computer Science</MenuItem>
+                            <MenuItem>Mathmematics</MenuItem>
+                            <MenuItem>Physics</MenuItem>
+                          </Select>
+                          <FormHelperText>Required</FormHelperText>
+                          <Button size="medium" color="primary" vairant="filled" startIcon={<SaveIcon />}>save</Button>
+                        </FormControl>
+                      </Grid>
                     </div>
                   )}
                 </Popup>
@@ -212,10 +347,21 @@ class Preferences extends Component {
                 <Popup trigger={<Button size="large" color="primary" borderColor="secondary.main" variant="outlined" fullWidth="true">2-4</Button>} modal={true}>
                   {close => (
                     <div>
-                      <h2 id="shifttitle">Scheduled Shifts</h2>
-                      <p id="shiftpopup">Put Monday 2-4 shifts from database
-                        with tutors and their disiplines here.
-                      </p>
+                      <h4>Current Preferences Entered By Tutors:</h4>
+                      <p>Put list of preferred shifts here: (users: discipline)</p>
+                      <h4>Add Preferred Shift</h4>
+                      <Grid item xs>
+                        <FormControl style={{minWidth: 200}}>
+                          <InputLabel>Discipline</InputLabel>
+                          <Select color="primary" variant="outlined">
+                            <MenuItem>Computer Science</MenuItem>
+                            <MenuItem>Mathmematics</MenuItem>
+                            <MenuItem>Physics</MenuItem>
+                          </Select>
+                          <FormHelperText>Required</FormHelperText>
+                          <Button size="medium" color="primary" vairant="filled" startIcon={<SaveIcon />}>save</Button>
+                        </FormControl>
+                      </Grid>
                     </div>
                   )}
                 </Popup>
@@ -225,10 +371,21 @@ class Preferences extends Component {
                 <Popup trigger={<Button size="large" color="primary" borderColor="secondary.main" variant="outlined" fullWidth="true">4-6</Button>} modal={true}>
                   {close => (
                     <div>
-                      <h2 id="shifttitle">Scheduled Shifts</h2>
-                      <p id="shiftpopup">Put Monday 4-6 shifts from database
-                        with tutors and their disiplines here.
-                      </p>
+                      <h4>Current Preferences Entered By Tutors:</h4>
+                      <p>Put list of preferred shifts here: (users: discipline)</p>
+                      <h4>Add Preferred Shift</h4>
+                      <Grid item xs>
+                        <FormControl style={{minWidth: 200}}>
+                          <InputLabel>Discipline</InputLabel>
+                          <Select color="primary" variant="outlined">
+                            <MenuItem>Computer Science</MenuItem>
+                            <MenuItem>Mathmematics</MenuItem>
+                            <MenuItem>Physics</MenuItem>
+                          </Select>
+                          <FormHelperText>Required</FormHelperText>
+                          <Button size="medium" color="primary" vairant="filled" startIcon={<SaveIcon />}>save</Button>
+                        </FormControl>
+                      </Grid>
                     </div>
                   )}
                 </Popup>
@@ -238,10 +395,21 @@ class Preferences extends Component {
                 <Popup trigger={<Button size="large" color="primary" borderColor="secondary.main" variant="outlined" fullWidth="true">6-8</Button>} modal={true}>
                   {close => (
                     <div>
-                      <h2 id="shifttitle">Scheduled Shifts</h2>
-                      <p id="shiftpopup">Put Monday 6-8 shifts from database
-                        with tutors and their disiplines here.
-                      </p>
+                      <h4>Current Preferences Entered By Tutors:</h4>
+                      <p>Put list of preferred shifts here: (users: discipline)</p>
+                      <h4>Add Preferred Shift</h4>
+                      <Grid item xs>
+                        <FormControl style={{minWidth: 200}}>
+                          <InputLabel>Discipline</InputLabel>
+                          <Select color="primary" variant="outlined">
+                            <MenuItem>Computer Science</MenuItem>
+                            <MenuItem>Mathmematics</MenuItem>
+                            <MenuItem>Physics</MenuItem>
+                          </Select>
+                          <FormHelperText>Required</FormHelperText>
+                          <Button size="medium" color="primary" vairant="filled" startIcon={<SaveIcon />}>save</Button>
+                        </FormControl>
+                      </Grid>
                     </div>
                   )}
                 </Popup>
@@ -251,10 +419,21 @@ class Preferences extends Component {
                 <Popup trigger={<Button size="large" color="primary" borderColor="secondary.main" variant="outlined" fullWidth="true">8-10</Button>} modal={true}>
                   {close => (
                     <div>
-                      <h2 id="shifttitle">Scheduled Shifts</h2>
-                      <p id="shiftpopup">Put Monday 8-10 shifts from database
-                        with tutors and their disiplines here.
-                      </p>
+                      <h4>Current Preferences Entered By Tutors:</h4>
+                      <p>Put list of preferred shifts here: (users: discipline)</p>
+                      <h4>Add Preferred Shift</h4>
+                      <Grid item xs>
+                        <FormControl style={{minWidth: 200}}>
+                          <InputLabel>Discipline</InputLabel>
+                          <Select color="primary" variant="outlined">
+                            <MenuItem>Computer Science</MenuItem>
+                            <MenuItem>Mathmematics</MenuItem>
+                            <MenuItem>Physics</MenuItem>
+                          </Select>
+                          <FormHelperText>Required</FormHelperText>
+                          <Button size="medium" color="primary" vairant="filled" startIcon={<SaveIcon />}>save</Button>
+                        </FormControl>
+                      </Grid>
                     </div>
                   )}
                 </Popup>
@@ -272,10 +451,21 @@ class Preferences extends Component {
                 <Popup trigger={<Button size="large" color="primary" borderColor="secondary.main" variant="outlined" fullWidth="true">2-4</Button>} modal={true}>
                   {close => (
                     <div>
-                      <h2 id="shifttitle">Scheduled Shifts</h2>
-                      <p id="shiftpopup">Put Monday 2-4 shifts from database
-                        with tutors and their disiplines here.
-                      </p>
+                      <h4>Current Preferences Entered By Tutors:</h4>
+                      <p>Put list of preferred shifts here: (users: discipline)</p>
+                      <h4>Add Preferred Shift</h4>
+                      <Grid item xs>
+                        <FormControl style={{minWidth: 200}}>
+                          <InputLabel>Discipline</InputLabel>
+                          <Select color="primary" variant="outlined">
+                            <MenuItem>Computer Science</MenuItem>
+                            <MenuItem>Mathmematics</MenuItem>
+                            <MenuItem>Physics</MenuItem>
+                          </Select>
+                          <FormHelperText>Required</FormHelperText>
+                          <Button size="medium" color="primary" vairant="filled" startIcon={<SaveIcon />}>save</Button>
+                        </FormControl>
+                      </Grid>
                     </div>
                   )}
                 </Popup>
@@ -285,10 +475,21 @@ class Preferences extends Component {
                 <Popup trigger={<Button size="large" color="primary" borderColor="secondary.main" variant="outlined" fullWidth="true">4-6</Button>} modal={true}>
                   {close => (
                     <div>
-                      <h2 id="shifttitle">Scheduled Shifts</h2>
-                      <p id="shiftpopup">Put Monday 4-6 shifts from database
-                        with tutors and their disiplines here.
-                      </p>
+                      <h4>Current Preferences Entered By Tutors:</h4>
+                      <p>Put list of preferred shifts here: (users: discipline)</p>
+                      <h4>Add Preferred Shift</h4>
+                      <Grid item xs>
+                        <FormControl style={{minWidth: 200}}>
+                          <InputLabel>Discipline</InputLabel>
+                          <Select color="primary" variant="outlined">
+                            <MenuItem>Computer Science</MenuItem>
+                            <MenuItem>Mathmematics</MenuItem>
+                            <MenuItem>Physics</MenuItem>
+                          </Select>
+                          <FormHelperText>Required</FormHelperText>
+                          <Button size="medium" color="primary" vairant="filled" startIcon={<SaveIcon />}>save</Button>
+                        </FormControl>
+                      </Grid>
                     </div>
                   )}
                 </Popup>
@@ -298,10 +499,21 @@ class Preferences extends Component {
                 <Popup trigger={<Button size="large" color="primary" borderColor="secondary.main" variant="outlined" fullWidth="true">6-8</Button>} modal={true}>
                   {close => (
                     <div>
-                      <h2 id="shifttitle">Scheduled Shifts</h2>
-                      <p id="shiftpopup">Put Monday 6-8 shifts from database
-                        with tutors and their disiplines here.
-                      </p>
+                      <h4>Current Preferences Entered By Tutors:</h4>
+                      <p>Put list of preferred shifts here: (users: discipline)</p>
+                      <h4>Add Preferred Shift</h4>
+                      <Grid item xs>
+                        <FormControl style={{minWidth: 200}}>
+                          <InputLabel>Discipline</InputLabel>
+                          <Select color="primary" variant="outlined">
+                            <MenuItem>Computer Science</MenuItem>
+                            <MenuItem>Mathmematics</MenuItem>
+                            <MenuItem>Physics</MenuItem>
+                          </Select>
+                          <FormHelperText>Required</FormHelperText>
+                          <Button size="medium" color="primary" vairant="filled" startIcon={<SaveIcon />}>save</Button>
+                        </FormControl>
+                      </Grid>
                     </div>
                   )}
                 </Popup>
@@ -311,10 +523,21 @@ class Preferences extends Component {
                 <Popup trigger={<Button size="large" color="primary" borderColor="secondary.main" variant="outlined" fullWidth="true">8-10</Button>} modal={true}>
                   {close => (
                     <div>
-                      <h2 id="shifttitle">Scheduled Shifts</h2>
-                      <p id="shiftpopup">Put Monday 8-10 shifts from database
-                        with tutors and their disiplines here.
-                      </p>
+                      <h4>Current Preferences Entered By Tutors:</h4>
+                      <p>Put list of preferred shifts here: (users: discipline)</p>
+                      <h4>Add Preferred Shift</h4>
+                      <Grid item xs>
+                        <FormControl style={{minWidth: 200}}>
+                          <InputLabel>Discipline</InputLabel>
+                          <Select color="primary" variant="outlined">
+                            <MenuItem>Computer Science</MenuItem>
+                            <MenuItem>Mathmematics</MenuItem>
+                            <MenuItem>Physics</MenuItem>
+                          </Select>
+                          <FormHelperText>Required</FormHelperText>
+                          <Button size="medium" color="primary" vairant="filled" startIcon={<SaveIcon />}>save</Button>
+                        </FormControl>
+                      </Grid>
                     </div>
                   )}
                 </Popup>
