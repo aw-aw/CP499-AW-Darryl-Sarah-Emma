@@ -322,4 +322,4 @@ class HomeNormal extends Component {
   }
 }
 
-export default Home;
+export default HomeNormal;

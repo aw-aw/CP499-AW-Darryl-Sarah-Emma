@@ -42,4 +42,4 @@ class MainAdmin extends Component {
   }
 }
 
-export default Main;
+export default MainAdmin;

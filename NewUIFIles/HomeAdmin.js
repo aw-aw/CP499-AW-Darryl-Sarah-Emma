@@ -322,4 +322,4 @@ class HomeAdmin extends Component {
   }
 }
 
-export default Home;
+export default HomeAdmin;

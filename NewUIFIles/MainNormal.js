@@ -36,4 +36,4 @@ class MainNormal extends Component {
   }
 }
 
-export default Main;
+export default MainNormal;
