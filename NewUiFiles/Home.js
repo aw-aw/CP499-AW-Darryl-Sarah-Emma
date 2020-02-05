@@ -4,9 +4,7 @@ import { Button } from "@material-ui/core";
 import { Table } from "@material-ui/core";
 import { Grid, Typography, Paper } from "@material-ui/core";
 import { TableRow, TableHead, TableCell } from "@material-ui/core";
-import SettingsIcon from '@material-ui/icons/Settings';
 import { Avatar } from "@material-ui/core";
-import Icon from '@material-ui/core/Icon';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
 import { createMuiTheme } from '@material-ui/core/styles';
 import ThemeProvider from '@material-ui/styles/ThemeProvider';
@@ -17,12 +15,6 @@ import "./Home.css";
 import { borders } from '@material-ui/system';
 
 const theme = createMuiTheme({
-  tableCell: {
-    paddingLeft: 0,
-    paddingRight: 0,
-    fontSize: '40pt',
-    fontWeight: 'fontWeightBold',
-  },
   palette: {
     primary: {
       main: '#DAA520',
@@ -53,10 +45,10 @@ class Home extends Component {
                 <Popup trigger={<Button size="large" color="primary" borderColor="secondary.main" variant="outlined" fullWidth="true">2-4</Button>} modal={true}>
                   {close => (
                     <div>
-                      <h2>Current Preferences Entered By Tutors:</h2>
-                      <p>List of shifts here from database (user: discipline)</p>
-                      <h2>Add Preferred Shift</h2>
-                      <p><Button startIcon={<AddCircleIcon/>}>Add Preference</Button></p>
+                      <h2 id="shifttitle">Scheduled Shifts</h2>
+                      <p id="shiftpopup">Put Monday 2-4 shifts from database
+                        with tutors and their disiplines here.
+                      </p>
                     </div>
                   )}
                 </Popup>
