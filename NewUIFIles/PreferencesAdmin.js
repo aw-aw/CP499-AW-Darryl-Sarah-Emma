@@ -567,4 +567,4 @@ class PreferencesAdmin extends Component {
   }
 }
 
-export default PreferencesNormal;
+export default PreferencesAdmin;

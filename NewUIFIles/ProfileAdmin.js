@@ -11,4 +11,4 @@ class ProfileAdmin extends Component {
   }
 }
 
-export default Profile;
+export default ProfileAdmin;
