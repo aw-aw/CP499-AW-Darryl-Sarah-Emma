@@ -16,6 +16,7 @@ import { FormControl } from '@material-ui/core';
 import { NativeSelect } from '@material-ui/core';
 import { MenuItem, Select, InputLabel, FormHelperText } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
+import * as $ from 'jquery';
 
 const theme = createMuiTheme({
   palette: {
@@ -39,6 +40,19 @@ const theme2 = createMuiTheme({
   },
 })
 
+var Request = createReactClass({
+
+  sendRequest: function(sent){
+    var text = "";
+    var request = $.post("post", {variable: sent});
+    request.done(function(data){$("#retrieved").html(data);});
+  },
+
+  render: function(){
+    return <div>{ this.sendRequest(this.props.sent)}</div>
+  }
+});
+
 class ShiftPopUp extends Component{
   state = {
     selected: null,
@@ -54,7 +68,7 @@ class ShiftPopUp extends Component{
     if (!this.state.selected) {
       this.setState({ hasError: true });
     }
-  } 
+  }
  render(){
    const { classes } = this.props;
    const { selected, hasError } = this.state;
@@ -63,8 +77,11 @@ class ShiftPopUp extends Component{
         <Popup trigger={<Button size="large" color="primary" borderColor="secondary.main" variant="outlined" fullWidth="true">{this.props.button}</Button>} modal={true}>
           {close => (
             <div>
-              <h4>Current Preferences Entered By Tutors:</h4>
-              <p>Put list of preferred shifts here: (users: discipline)</p>
+              <div>
+                <h4>Current Preferences Entered By Tutors:</h4>
+                <p id="retrieved"></p>
+              </div>
+              <Request sent="MON2">
               <h4>Add Preferred Shift {this.props.shift}</h4>
               <Grid item xs>
                 <FormControl style={{minWidth: 200}} error={hasError}>
