@@ -28,6 +28,23 @@ const theme = createMuiTheme({
   },
 });
 
+class ShiftPopUp extends Component{
+  render(){
+  return(
+  <Grid item xs>
+      <Popup trigger={<Button size="large" color="primary" borderColor="secondary.main" variant="outlined" fullWidth="true">{this.props.button}</Button>} modal={true}>
+        {close => (
+          <div>
+            <h2 id="shifttitle">Scheduled Shifts</h2>
+            <p id="shiftpopup"> database info
+            </p>
+          </div>
+        )}
+      </Popup>
+  </Grid>)
+  }
+}
+
 class HomeTutor extends Component {
   constructor(props) {
     super(props);
@@ -37,223 +54,47 @@ class HomeTutor extends Component {
     return (
       <div>
       <ThemeProvider theme={theme}>
-        <h1 align="center">Block 5 Shifts (Admin)</h1>
+        <h1 align="center">Block 5 Shifts (Tutor)</h1>
         <Grid container spacing={2}>
           <Grid item xs>
             <p>Monday: {moment().isoWeekday(1).format('MM/DD')}</p>
-            <Grid item xs>
-                <Popup trigger={<Button size="large" color="primary" borderColor="secondary.main" variant="outlined" fullWidth="true">2-4</Button>} modal={true}>
-                  {close => (
-                    <div>
-                      <h2 id="shifttitle">Scheduled Shifts</h2>
-                      <p id="shiftpopup">Put Monday 2-4 shifts from database
-                        with tutors and their disiplines here.
-                      </p>
-                    </div>
-                  )}
-                </Popup>
-            </Grid>
+            <ShiftPopUp button="2-4"/>
             <p></p>
-            <Grid item xs>
-                <Popup trigger={<Button size="large" color="primary" borderColor="secondary.main" variant="outlined" fullWidth="true">4-6</Button>} modal={true}>
-                  {close => (
-                    <div>
-                      <h2 id="shifttitle">Scheduled Shifts</h2>
-                      <p id="shiftpopup">Put Monday 4-6 shifts from database
-                        with tutors and their disiplines here.
-                      </p>
-                    </div>
-                  )}
-                </Popup>
-            </Grid>
+            <ShiftPopUp button ="4-6"/>
             <p></p>
-            <Grid item xs>
-                <Popup trigger={<Button size="large" color="primary" borderColor="secondary.main" variant="outlined" fullWidth="true">6-8</Button>} modal={true}>
-                  {close => (
-                    <div>
-                      <h2 id="shifttitle">Scheduled Shifts</h2>
-                      <p id="shiftpopup">Put Monday 6-8 shifts from database
-                        with tutors and their disiplines here.
-                      </p>
-                    </div>
-                  )}
-                </Popup>
-            </Grid>
+            <ShiftPopUp button="6-8"/>
             <p></p>
-            <Grid item xs>
-                <Popup trigger={<Button size="large" color="primary" borderColor="secondary.main" variant="outlined" fullWidth="true">8-10</Button>} modal={true}>
-                  {close => (
-                    <div>
-                      <h2 id="shifttitle">Scheduled Shifts</h2>
-                      <p id="shiftpopup">Put Monday 8-10 shifts from database
-                        with tutors and their disiplines here.
-                      </p>
-                    </div>
-                  )}
-                </Popup>
-            </Grid>
+            <ShiftPopUp button="8-10"/>
           </Grid>
           <Grid item xs>
             <p>Tuesday: {moment().isoWeekday(2).format('MM/DD')}</p>
-            <Grid item xs>
-                <Popup trigger={<Button size="large" color="primary" borderColor="secondary.main" variant="outlined" fullWidth="true">2-4</Button>} modal={true}>
-                  {close => (
-                    <div>
-                      <h2 id="shifttitle">Scheduled Shifts</h2>
-                      <p id="shiftpopup">Put Monday 2-4 shifts from database
-                        with tutors and their disiplines here.
-                      </p>
-                    </div>
-                  )}
-                </Popup>
-            </Grid>
+            <ShiftPopUp button="2-4"/>
             <p></p>
-            <Grid item xs>
-                <Popup trigger={<Button size="large" color="primary" borderColor="secondary.main" variant="outlined" fullWidth="true">4-6</Button>} modal={true}>
-                  {close => (
-                    <div>
-                      <h2 id="shifttitle">Scheduled Shifts</h2>
-                      <p id="shiftpopup">Put Monday 4-6 shifts from database
-                        with tutors and their disiplines here.
-                      </p>
-                    </div>
-                  )}
-                </Popup>
-            </Grid>
+            <ShiftPopUp button="4-6"/>
             <p></p>
-            <Grid item xs>
-                <Popup trigger={<Button size="large" color="primary" borderColor="secondary.main" variant="outlined" fullWidth="true">6-8</Button>} modal={true}>
-                  {close => (
-                    <div>
-                      <h2 id="shifttitle">Scheduled Shifts</h2>
-                      <p id="shiftpopup">Put Monday 6-8 shifts from database
-                        with tutors and their disiplines here.
-                      </p>
-                    </div>
-                  )}
-                </Popup>
-            </Grid>
+            <ShiftPopUp button="6-8"/>
             <p></p>
-            <Grid item xs>
-                <Popup trigger={<Button size="large" color="primary" borderColor="secondary.main" variant="outlined" fullWidth="true">8-10</Button>} modal={true}>
-                  {close => (
-                    <div>
-                      <h2 id="shifttitle">Scheduled Shifts</h2>
-                      <p id="shiftpopup">Put Monday 8-10 shifts from database
-                        with tutors and their disiplines here.
-                      </p>
-                    </div>
-                  )}
-                </Popup>
-            </Grid>
+            <ShiftPopUp button="8-10"/>
           </Grid>
           <Grid item xs>
             <p>Wednesday: {moment().isoWeekday(3).format('MM/DD')}</p>
-            <Grid item xs>
-                <Popup trigger={<Button size="large" color="primary" borderColor="secondary.main" variant="outlined" fullWidth="true">2-4</Button>} modal={true}>
-                  {close => (
-                    <div>
-                      <h2 id="shifttitle">Scheduled Shifts</h2>
-                      <p id="shiftpopup">Put Monday 2-4 shifts from database
-                        with tutors and their disiplines here.
-                      </p>
-                    </div>
-                  )}
-                </Popup>
-            </Grid>
+            <ShiftPopUp button="2-4"/>
             <p></p>
-            <Grid item xs>
-                <Popup trigger={<Button size="large" color="primary" borderColor="secondary.main" variant="outlined" fullWidth="true">4-6</Button>} modal={true}>
-                  {close => (
-                    <div>
-                      <h2 id="shifttitle">Scheduled Shifts</h2>
-                      <p id="shiftpopup">Put Monday 4-6 shifts from database
-                        with tutors and their disiplines here.
-                      </p>
-                    </div>
-                  )}
-                </Popup>
-            </Grid>
+            <ShiftPopUp button ="4-6"/>
             <p></p>
-            <Grid item xs>
-                <Popup trigger={<Button size="large" color="primary" borderColor="secondary.main" variant="outlined" fullWidth="true">6-8</Button>} modal={true}>
-                  {close => (
-                    <div>
-                      <h2 id="shifttitle">Scheduled Shifts</h2>
-                      <p id="shiftpopup">Put Monday 6-8 shifts from database
-                        with tutors and their disiplines here.
-                      </p>
-                    </div>
-                  )}
-                </Popup>
-            </Grid>
+            <ShiftPopUp button ="6-8"/>
             <p></p>
-            <Grid item xs>
-                <Popup trigger={<Button size="large" color="primary" borderColor="secondary.main" variant="outlined" fullWidth="true">8-10</Button>} modal={true}>
-                  {close => (
-                    <div>
-                      <h2 id="shifttitle">Scheduled Shifts</h2>
-                      <p id="shiftpopup">Put Monday 8-10 shifts from database
-                        with tutors and their disiplines here.
-                      </p>
-                    </div>
-                  )}
-                </Popup>
-            </Grid>
+            <ShiftPopUp button ="8-10"/>
           </Grid>
           <Grid item xs>
             <p>Thursday: {moment().isoWeekday(4).format('MM/DD')}</p>
-            <Grid item xs>
-                <Popup trigger={<Button size="large" color="primary" borderColor="secondary.main" variant="outlined" fullWidth="true">2-4</Button>} modal={true}>
-                  {close => (
-                    <div>
-                      <h2 id="shifttitle">Scheduled Shifts</h2>
-                      <p id="shiftpopup">Put Monday 2-4 shifts from database
-                        with tutors and their disiplines here.
-                      </p>
-                    </div>
-                  )}
-                </Popup>
-            </Grid>
+            <ShiftPopUp button ="2-4"/>
             <p></p>
-            <Grid item xs>
-                <Popup trigger={<Button size="large" color="primary" borderColor="secondary.main" variant="outlined" fullWidth="true">4-6</Button>} modal={true}>
-                  {close => (
-                    <div>
-                      <h2 id="shifttitle">Scheduled Shifts</h2>
-                      <p id="shiftpopup">Put Monday 4-6 shifts from database
-                        with tutors and their disiplines here.
-                      </p>
-                    </div>
-                  )}
-                </Popup>
-            </Grid>
+            <ShiftPopUp button = "4-6"/>
             <p></p>
-            <Grid item xs>
-                <Popup trigger={<Button size="large" color="primary" borderColor="secondary.main" variant="outlined" fullWidth="true">6-8</Button>} modal={true}>
-                  {close => (
-                    <div>
-                      <h2 id="shifttitle">Scheduled Shifts</h2>
-                      <p id="shiftpopup">Put Monday 6-8 shifts from database
-                        with tutors and their disiplines here.
-                      </p>
-                    </div>
-                  )}
-                </Popup>
-            </Grid>
+            <ShiftPopUp button ="6-8"/>
             <p></p>
-            <Grid item xs>
-                <Popup trigger={<Button size="large" color="primary" borderColor="secondary.main" variant="outlined" fullWidth="true">8-10</Button>} modal={true}>
-                  {close => (
-                    <div>
-                      <h2 id="shifttitle">Scheduled Shifts</h2>
-                      <p id="shiftpopup">Put Monday 8-10 shifts from database
-                        with tutors and their disiplines here.
-                      </p>
-                    </div>
-                  )}
-                </Popup>
-            </Grid>
+            <ShiftPopUp button = "8-10"/>
           </Grid>
           <Grid item xs>
             <p>Friday: {moment().isoWeekday(5).format('MM/DD')}</p>
@@ -263,57 +104,13 @@ class HomeTutor extends Component {
           </Grid>
           <Grid item xs>
             <p>Sunday: {moment().isoWeekday(7).format('MM/DD')}</p>
-            <Grid item xs>
-                <Popup trigger={<Button size="large" color="primary" borderColor="secondary.main" variant="outlined" fullWidth="true">2-4</Button>} modal={true}>
-                  {close => (
-                    <div>
-                      <h2 id="shifttitle">Scheduled Shifts</h2>
-                      <p id="shiftpopup">Put Monday 2-4 shifts from database
-                        with tutors and their disiplines here.
-                      </p>
-                    </div>
-                  )}
-                </Popup>
-            </Grid>
+            <ShiftPopUp button ="2-4"/>
             <p></p>
-            <Grid item xs>
-                <Popup trigger={<Button size="large" color="primary" borderColor="secondary.main" variant="outlined" fullWidth="true">4-6</Button>} modal={true}>
-                  {close => (
-                    <div>
-                      <h2 id="shifttitle">Scheduled Shifts</h2>
-                      <p id="shiftpopup">Put Monday 4-6 shifts from database
-                        with tutors and their disiplines here.
-                      </p>
-                    </div>
-                  )}
-                </Popup>
-            </Grid>
+            <ShiftPopUp button="4-6"/>
             <p></p>
-            <Grid item xs>
-                <Popup trigger={<Button size="large" color="primary" borderColor="secondary.main" variant="outlined" fullWidth="true">6-8</Button>} modal={true}>
-                  {close => (
-                    <div>
-                      <h2 id="shifttitle">Scheduled Shifts</h2>
-                      <p id="shiftpopup">Put Monday 6-8 shifts from database
-                        with tutors and their disiplines here.
-                      </p>
-                    </div>
-                  )}
-                </Popup>
-            </Grid>
+            <ShiftPopUp button ="6-8"/>
             <p></p>
-            <Grid item xs>
-                <Popup trigger={<Button size="large" color="primary" borderColor="secondary.main" variant="outlined" fullWidth="true">8-10</Button>} modal={true}>
-                  {close => (
-                    <div>
-                      <h2 id="shifttitle">Scheduled Shifts</h2>
-                      <p id="shiftpopup">Put Monday 8-10 shifts from database
-                        with tutors and their disiplines here.
-                      </p>
-                    </div>
-                  )}
-                </Popup>
-            </Grid>
+            <ShiftPopUp button="8-10"/>
           </Grid>
         </Grid>
         </ThemeProvider>
