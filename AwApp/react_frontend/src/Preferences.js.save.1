@@ -46,17 +46,9 @@ var createReactClass = require('create-react-class');
 var Request = createReactClass({
   
   sendRequest: function(sent){
-    var text = "TRY";
-    //$.ajax({
-    //type: "POST",
-    //url: "preferences",
-    //async: false,
-    //variable: "MON2",
-    //success: function(data){text = data;}
-    //});
+    var text = "";
     var request = $.post("preferences", {variable: sent});
-    request.done(function(data){$("#tester").html(data);});
-    console.log(text);
+    request.done(function(data){$("#mon2").html(data);});
   },
 
   render: function(){
@@ -109,7 +101,7 @@ class Preferences extends Component {
                     <div>
                       <div>
                         <h4>Current Preferences Entered By HDJSKA  Tutors:</h4>
-                          <p id="tester"></p>
+                          <p id="mon2"></p>
                          </div>
                       <Request sent="MON2"/>
                       <h4>Add Preferred Shift (Monday 2-4)</h4>

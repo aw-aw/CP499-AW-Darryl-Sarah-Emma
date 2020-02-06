@@ -1,5 +1,5 @@
 #!/usr/bin/python
-from flask import Flask, render_template, json, request, session,jsonify
+from flask import Flask, render_template, json, request, jsonify
 from flask_cas import CAS
 from flask_cas import login_required
 from flask_cas import login
@@ -182,31 +182,31 @@ def schedule_tutors(tutors_list):
 tutor_list=[]
 
 conn=mariadb.connect(user='root',passwd='',db='qrcCal')
-cursor=conn.cursor()
+cursor=conn.cursor(buffered = True)
 cursor.execute("SELECT * FROM users;")
 for row in cursor:
     username = row[0].encode('ascii','ignore')
-    name=row[1]
+    numberShifts=row[1]
     isLa=row[2]
     isAdmin=row[3]
-    numberShifts=row[4]
+    name=row[4].encode('ascii','ignore')
     desiredShifts=row[5]
     tutor=Tutor(username,name,isLa,isAdmin,numberShifts,desiredShifts)
     tutor_list.append(tutor)
 
 cursor.execute("SELECT * FROM discipline;")
 for row in cursor:
-    discipline=row[2].encode('ascii','ignore')
+    discipline=row[1].encode('ascii','ignore')
     for tutor in tutor_list:
-        if tutor.username==row[1]:
+        if tutor.username==row[2]:
             tutor.disciplines.append(discipline)
             break
 cursor.execute("SELECT * FROM preferredshifts;")
 for row in cursor:
-    shift=row[3].encode('ascii','ignore')
-    discipline=row[2].encode('ascii','ignore')
+    shift=row[1].encode('ascii','ignore')
+    discipline=row[3].encode('ascii','ignore')
     for tutor in tutor_list:
-        if tutor.username==row[1]:
+        if tutor.username==row[2]:
             pref_shift=(discipline,shift)
             tutor.preferences.append(pref_shift)
             break
@@ -218,30 +218,32 @@ for row in cursor:
             tutor.busy.append(shift)
             break
 
-# tutor_list = schedule_tutors(tutor_list)
-# for tutor in tutor_list:
-#     print (tutor.username, tutor.tie_breaker, tutor.scheduled_shifts)
-
-app = Flask(__name__, static_folder="../react_frontend/build/static", template_folder="../react_frontend/build")
+app = Flask(__name__,static_folder="../react_frontend/build/static", template_folder="../react_frontend/build")
 cas = CAS(app)
-app.config['CAS_SERVER'] = 'https://cas.coloradocollege.edu/cas/'
-app.config['CAS_AFTER_LOGIN'] = 'index'
+app.config['CAS_SERVER'] = 'https://cas.coloradocollege.edu/cas'
+app.config['CAS_AFTER_LOGIN'] = 'secure'
 
 @app.route('/')
+@login_required
 def index():
-    return render_template('index.html')
+    return render_template('index.html', token="token")
 
-@app.route('/grabShifts',methods=['GET', 'POST'])
-def grab_shifts():
-    cursor.execute("SELECT * FROM preferredShifts WHERE shift='MON2';")
+@app.route('/preferences', methods=['POST', 'GET'])
+@login_required
+def grabShifts():
+    shift = request.form['variable']
+    req = "SELECT * FROM preferredshifts WHERE shift =" + "\'" +  shift + "\'" + ";"
+    cursor.execute(req)
     string=''
     for row in cursor:
-        string+=row[2].encode('ascii','ignore')
-        string+=row[1].encode('ascii','ignore')
-    return jsonify(string)
+        print (row[2])
+        string += row[2]
+        string += row[3]
+    try:
+       cursor.fetchall() 
+    except sqlite3.Error as error:
+        print("Failed to read data from table", error)
+    return string
 
 if __name__=="__main__":
-    app.secret_key = 'super secret key'
-    app.config['SESSION_TYPE'] = 'filesystem'
-    app.debug = True
-    app.run()
+    app.run(debug=True)
