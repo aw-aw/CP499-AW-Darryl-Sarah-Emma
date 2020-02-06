@@ -13,6 +13,7 @@ import moment from "moment";
 import { makeStyles } from '@material-ui/core/styles';
 import "./Home.css";
 import { borders } from '@material-ui/system';
+import { Request } from '../Request'
 
 const theme = createMuiTheme({
   palette: {
@@ -36,8 +37,7 @@ class ShiftPopUp extends Component{
         {close => (
           <div>
             <h2 id="shifttitle">Scheduled Shifts</h2>
-            <p id="shiftpopup"> database info
-            </p>
+            <p id="shiftpopup"> database info </p>
           </div>
         )}
       </Popup>

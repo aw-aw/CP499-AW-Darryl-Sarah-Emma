@@ -14,6 +14,8 @@ import { FormControl } from '@material-ui/core';
 import { NativeSelect } from '@material-ui/core';
 import { MenuItem, Select, InputLabel, FormHelperText } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
+import * as $ from 'jquery'
+import { Request } from '../Request.js'
 
 const theme = createMuiTheme({
   palette: {
