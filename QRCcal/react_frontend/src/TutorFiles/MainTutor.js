@@ -32,9 +32,9 @@ class MainTutor extends Component {
             <li><NavLink to="/profile">Profile</NavLink></li>
           </ul>
           <div className="content">
-             <Route exact path="/" component={HomeAdmin}/>
-	           <Route path="/preferences" component={PreferencesAdmin}/>
-	           <Route path="/profile" component={ProfileAdmin}/>
+             <Route exact path="/" component={HomeTutor}/>
+	           <Route path="/preferences" component={PreferencesTutor}/>
+	           <Route path="/profile" component={ProfileTutor}/>
           </div>
         </div>
       </BrowserRouter>
@@ -43,3 +43,4 @@ class MainTutor extends Component {
 }
 
 export default MainTutor;
+

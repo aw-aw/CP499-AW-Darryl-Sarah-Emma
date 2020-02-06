@@ -6,13 +6,11 @@ import {
   NavLink,
   BrowserRouter
 } from "react-router-dom";
-import HomeTutor from "./HomeTutor";
-import PreferencesTutor from "./PreferencesTutor";
-import ProfileTutor from "./ProfileTutor";
+import HomeNormal from "./HomeNormal";
 import Logo from "./logo.png";
 import Image from "react-image-resizer";
 
-class MainTutor extends Component {
+class MainNormal extends Component {
   render() {
     return (
       <BrowserRouter>
@@ -28,13 +26,9 @@ class MainTutor extends Component {
           </div>
           <ul className="header">
             <li><NavLink exact to="/">Home</NavLink></li>
-            <li><NavLink to="/preferences">Preferences</NavLink></li>
-            <li><NavLink to="/profile">Profile</NavLink></li>
           </ul>
           <div className="content">
-             <Route exact path="/" component={HomeAdmin}/>
-	           <Route path="/preferences" component={PreferencesAdmin}/>
-	           <Route path="/profile" component={ProfileAdmin}/>
+             <Route exact path="/" component={HomeNormal}/>
           </div>
         </div>
       </BrowserRouter>
@@ -42,4 +36,5 @@ class MainTutor extends Component {
   }
 }
 
-export default MainTutor;
+export default MainNormal;
+

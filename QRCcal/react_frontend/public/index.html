@@ -7,6 +7,12 @@
     <title>QRCCal</title>
   </head>
   <body>
-    <div id="root"></div>
+    {% if type == "admin" %}
+    <div id="admin"></div>
+    {% elif type == "normal" %}
+    <div id="normal"></div>
+    {% elif type == "tutor" %}
+    <div id="tutor"></div>
+    {% endif %}
   </body>
 </html>

@@ -6,13 +6,13 @@ import {
   NavLink,
   BrowserRouter
 } from "react-router-dom";
-import HomeTutor from "./HomeTutor";
-import PreferencesTutor from "./PreferencesTutor";
-import ProfileTutor from "./ProfileTutor";
+import HomeAdmin from "./HomeAdmin";
+import PreferencesAdmin from "./PreferencesAdmin";
+import ProfileAdmin from "./ProfileAdmin";
 import Logo from "./logo.png";
 import Image from "react-image-resizer";
 
-class MainTutor extends Component {
+class MainAdmin extends Component {
   render() {
     return (
       <BrowserRouter>
@@ -42,4 +42,5 @@ class MainTutor extends Component {
   }
 }
 
-export default MainTutor;
+export default MainAdmin;
+

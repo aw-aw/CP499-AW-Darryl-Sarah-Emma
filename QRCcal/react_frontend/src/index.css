@@ -1,10 +1,10 @@
 body {
-  background-color: #FFCC00;
+  background-color: #DAA520;
   padding: 20px;
   margin: 0;
 }
 h1, h2, p, ul, li {
-  font-family: sans-serif;
+  font-family: arial;
 }
 ul.header li {
   display: inline;
@@ -23,7 +23,7 @@ ul.header li a {
   display: inline-block;
 }
 .active {
-  background-color: #0099FF;
+  background-color: #696969;
 }
 .content {
   background-color: #FFF;
@@ -35,4 +35,9 @@ ul.header li a {
 }
 .content li {
   margin-bottom: 10px;
+}
+
+#sitetitle {
+  padding-top: 0px;
+  font-size: 40px;
 }
