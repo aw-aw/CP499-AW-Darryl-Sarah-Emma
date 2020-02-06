@@ -63,7 +63,7 @@ class PreferencesTutor extends Component {
     return (
       <div>
       <ThemeProvider theme={theme}>
-      <h1 align="center">Block 6 Preferred Shifts (Tutor)</h1>
+      <h1 align="center">Block 6 Preferred Shifts (Admin)</h1>
         <Grid container spacing={2}>
           <Grid item xs>
             <p>Monday: {moment().isoWeekday(1).format('MM/DD')}</p>
@@ -568,4 +568,3 @@ class PreferencesTutor extends Component {
 }
 
 export default PreferencesTutor;
-

@@ -37,7 +37,7 @@ class HomeTutor extends Component {
     return (
       <div>
       <ThemeProvider theme={theme}>
-        <h1 align="center">Block 5 Shifts (Tutor)</h1>
+        <h1 align="center">Block 5 Shifts (Admin)</h1>
         <Grid container spacing={2}>
           <Grid item xs>
             <p>Monday: {moment().isoWeekday(1).format('MM/DD')}</p>
@@ -323,4 +323,3 @@ class HomeTutor extends Component {
 }
 
 export default HomeTutor;
-

@@ -10,10 +10,12 @@ ul.header li {
   display: inline;
   list-style-type: none;
   margin: 0;
+  border-radius: 25px;
 }
 ul.header {
   background-color: #111;
   padding: 0;
+  border-radius: 25px;
 }
 ul.header li a {
   color: #FFF;
@@ -21,13 +23,16 @@ ul.header li a {
   text-decoration: none;
   padding: 20px;
   display: inline-block;
+  border-radius: 25px;
 }
 .active {
-  background-color: #696969;
+  background-color: #00BFFF;
+  border-radius: 25px;
 }
 .content {
-  background-color: #FFF;
+  background-color: #FFFFFF;
   padding: 20px;
+  border-radius: 25px;
 }
 .content h2 {
   padding: 0;
