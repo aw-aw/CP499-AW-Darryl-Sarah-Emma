@@ -10,6 +10,8 @@ import PreferencesTutor from "./PreferencesTutor";
 import ProfileTutor from "./ProfileTutor";
 import Logo from "./logo.png";
 import Image from "react-image-resizer";
+import { createMuiTheme } from '@material-ui/core/styles';
+
 
 const theme = createMuiTheme({
   palette: {
