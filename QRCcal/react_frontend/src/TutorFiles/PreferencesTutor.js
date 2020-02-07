@@ -16,7 +16,7 @@ import { FormControl } from '@material-ui/core';
 import { NativeSelect } from '@material-ui/core';
 import { MenuItem, Select, InputLabel, FormHelperText } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import {Request} from '../Request.js'
+import { Request } from '../Request.js'
 import * as $ from 'jquery';
 
 const theme = createMuiTheme({
@@ -41,25 +41,11 @@ const theme2 = createMuiTheme({
   },
 })
 
-// var Request = createReactClass({
-//
-//   sendRequest: function(sent){
-//     var text = "";
-//     var request = $.post("post", {variable: sent});
-//     request.done(function(data){$("#retrieved").html(data);});
-//   },
-//
-//   render: function(){
-//     return <div>{ this.sendRequest(this.props.sent)}</div>
-//   }
-// });
-
 class ShiftPopUp extends Component{
   state = {
     selected: null,
     hasError: false
   };
-
 
   handleChange(value) {
     this.setState({ selected: value });
@@ -73,6 +59,7 @@ class ShiftPopUp extends Component{
  render(){
    const { classes } = this.props;
    const { selected, hasError } = this.state;
+   var short_shift = this.props.short_shift;
    return(
     <Grid item xs>
         <Popup trigger={<Button size="large" color="primary" borderColor="secondary.main" variant="outlined" fullWidth="true">{this.props.button}</Button>} modal={true}>
@@ -82,7 +69,7 @@ class ShiftPopUp extends Component{
                 <h4>Current Preferences Entered By Tutors:</h4>
                 <p id="retrieved"></p>
               </div>
-              <Request sent={"SELECT * FROM preferredshifts WHERE shift = \'".concat({this.props.short_shift},"\';")} type="preferences">
+              <Request type="preferences" sent={"SELECT * FROM preferredshifts WHERE shift = \'" + short_shift + "\';"}/>
               <h4>Add Preferred Shift {this.props.shift}</h4>
               <Grid item xs>
                 <FormControl style={{minWidth: 200}} error={hasError}>
@@ -107,7 +94,7 @@ class PreferencesTutor extends Component {
     return (
       <div>
       <ThemeProvider theme={theme}>
-      <h1 align="center">Block 6 Preferred Shifts (Tutor)</h1>
+      <h1 align="center">Block 6 Preferred Shifts for {window.user_name}(Tutor)</h1>
         <Grid container spacing={2}>
           <Grid item xs>
             <p>Monday: {moment().isoWeekday(1).format('MM/DD')}</p>
