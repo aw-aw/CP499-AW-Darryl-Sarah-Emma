@@ -17,6 +17,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import * as $ from 'jquery'
 import { Request } from '../Request.js'
 import SaveIcon from '@material-ui/icons/Save';
+import TextField from '@material-ui/core/TextField';
 
 const theme = createMuiTheme({
   palette: {
@@ -36,18 +37,72 @@ const theme = createMuiTheme({
 });
 
 class Disciplines extends React.Component {
+  render() {
+    return (
+      <h3>Add Tutor Discipline</h3>
+      <FormControl style={{minWidth: 200}} error={hasError}>
+        <InputLabel>Tutor</InputLabel>
+        <Select value={selected} onChange={event => this.handleChange(event.target.value)}>
+          <MenuItem value="">None</MenuItem>
+          <MenuItem value="e_blair">e_blair</MenuItem>
+          <MenuItem value="sh_dunbar">sh_dunbar</MenuItem>
+        </Select>
+        <Button onClick={() => this.handleClick()} size="medium" color="primary" variant="filled" startIcon={<SaveIcon />}>save</Button>
+      </FormControl>
+      <FormControl style={{minWidth: 200}} error={hasError}>
+        <InputLabel>Discipline</InputLabel>
+        <Select value={selected} onChange={event => this.handleChange(event.target.value)}>
+          <MenuItem value="">None</MenuItem>
+          <MenuItem value="Computer_Science">Computer Science</MenuItem>
+          <MenuItem value="Mathematics">Mathematics</MenuItem>
+          <MenuItem value="Econmics">Economics</MenuItem>
+          <MenuItem value="Physics">Physics</MenuItem>
+          <MenuItem value="Chemistry">Chemistry</MenuItem>
+          <MenuItem value="Biology">Biology</MenuItem>
+        </Select>
+        <Button onClick={() => this.handleClick()} size="medium" color="primary" variant="filled" startIcon={<SaveIcon />}>save</Button>
+      </FormControl>
+    )
+  }
+}
+
+class LA extends React.Component {
+  state = {
+    selected: null,
+    hasError: false
+  };
+  handleChange(value) {
+    this.setState({ selected: value });
+ }
+ handleClick() {
+    this.setState({ hasError: false });
+    if (!this.state.selected) {
+      this.setState({ hasError: true });
+    }
+  }
   render () {
+    const { classes } = this.props;
+    const { selected, hasError } = this.state;
     return (
       <Grid item xs>
-        <h5 align="center">Disciplines</h5>
-        <p align="center">Mathematics</p>
-        <p align="center">Economics</p>
+          <h4>Add Tutor</h4>
+          <Grid item xs>
+            <FormControl style={{minWidth: 200}} error={hasError}>
+              <InputLabel>Learning Assistant</InputLabel>
+              <Select value={selected} onChange={event => this.handleChange(event.target.value)}>
+                <MenuItem value="">None</MenuItem>
+                <MenuItem value="Yes">Yes</MenuItem>
+                <MenuItem value="No">No</MenuItem>
+              </Select>
+              <Button onClick={() => this.handleClick()} size="medium" color="primary" variant="filled" startIcon={<SaveIcon />}>save</Button>
+            </FormControl>
+          </Grid>
       </Grid>
     )
   }
 }
 
-class MaxShifts extends React.Component {
+class ShiftsLastBlock extends React.Component {
   state = {
     selected: null,
     hasError: false
@@ -66,9 +121,9 @@ class MaxShifts extends React.Component {
     const { selected, hasError } = this.state;
     return (
       <Grid item xs>
-        <h3 align="center">Max Shifts</h3>
+        <h3 align="center">Shifts Last Block</h3>
         <FormControl style={{minWidth: 200}} error={hasError}>
-          <InputLabel>Discipline</InputLabel>
+          <InputLabel>Shifts</InputLabel>
           <Select value={selected} onChange={event => this.handleChange(event.target.value)}>
             <MenuItem value={0}>0</MenuItem>
             <MenuItem value={1}>1</MenuItem>
@@ -99,12 +154,36 @@ class MaxShifts extends React.Component {
   }
 }
 
-class LA extends React.Component {
-  render() {
+class AdminOrTutor extends React.Component {
+  state = {
+    selected: null,
+    hasError: false
+  };
+  handleChange(value) {
+    this.setState({ selected: value });
+ }
+ handleClick() {
+    this.setState({ hasError: false });
+    if (!this.state.selected) {
+      this.setState({ hasError: true });
+    }
+  }
+  render () {
+    const { classes } = this.props;
+    const { selected, hasError } = this.state;
     return (
       <Grid item xs>
-        <h3 align="center">LA Last Block</h3>
-        <p align="center">database</p>
+        <h4>Add Tutor</h4>
+        <Grid item xs>
+          <FormControl style={{minWidth: 200}} error={hasError}>
+            <InputLabel>Admin Or Tutor</InputLabel>
+            <Select value={selected} onChange={event => this.handleChange(event.target.value)}>
+              <MenuItem value="">None</MenuItem>
+              <MenuItem value="Tutor">Tutor</MenuItem>
+              <MenuItem value="Admin">Admin</MenuItem>
+            </Select>
+            <Button onClick={() => this.handleClick()} size="medium" color="primary" variant="filled" startIcon={<SaveIcon />}>save</Button>
+          </FormControl>
       </Grid>
     )
   }
