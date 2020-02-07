@@ -1,16 +1,32 @@
 import React, { Component } from "react";
-import { Avatar } from "@material-ui/core";
 import { Button, Box } from "@material-ui/core";
 import {
   Route,
   NavLink,
   BrowserRouter
 } from "react-router-dom";
-import HomeAdmin from "./HomeAdmin";
-import PreferencesAdmin from "./PreferencesAdmin";
-import ProfileAdmin from "./ProfileAdmin";
+import HomeTutor from "./HomeTutor";
+import PreferencesTutor from "./PreferencesTutor";
+import ProfileTutor from "./ProfileTutor";
 import Logo from "./logo.png";
 import Image from "react-image-resizer";
+
+const theme = createMuiTheme({
+  palette: {
+    primary: {
+      main: '#DAA520',
+    },
+    secondary: {
+      main: '#000000',
+      constrastText: '#111',
+    },
+    constrastThreshold: 3,
+    tonalOffset: 0.2,
+  },
+  typography: {
+    fontFamily: 'Optima',
+  }
+});
 
 class MainAdmin extends Component {
   render() {
@@ -19,11 +35,10 @@ class MainAdmin extends Component {
         <div>
           <div style={{display: "flex"}}>
             <Button style={{marginRiight: "auto"}} color="secondary" variant="contained" href="https://www.coloradocollege.edu/offices/qrc/" target="_blank">Colorado College QRC Page</Button>
-            <Button style={{marginLeft: "auto"}} color="secondary"><Avatar>Hi</Avatar></Button>
           </div>
           <p></p>
           <div style={{display: "flex"}}>
-            <h1>QRC Scheduler</h1>
+            <h1 id="sitetitle">QRC Scheduler</h1>
             <Image style={{marginLeft: "auto"}} src={Logo} height={125} width={125}/>
           </div>
           <ul className="header">
@@ -43,4 +58,3 @@ class MainAdmin extends Component {
 }
 
 export default MainAdmin;
-

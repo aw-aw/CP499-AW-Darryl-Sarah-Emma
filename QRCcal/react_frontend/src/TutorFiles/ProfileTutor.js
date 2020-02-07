@@ -142,7 +142,7 @@ class PreferredShifts extends React.Component {
   }
 }
 
-class Profile extends Component {
+class ProfileTutor extends Component {
   render() {
     return (
       <div>
@@ -164,4 +164,4 @@ class Profile extends Component {
   }
 }
 
-export default Profile;
+export default ProfileTutor;

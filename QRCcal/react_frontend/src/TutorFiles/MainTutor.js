@@ -34,7 +34,7 @@ class MainTutor extends Component {
       <BrowserRouter>
         <div>
           <div style={{display: "flex"}}>
-            <Button style={{marginRiight: "auto"}} color="secondary" variant="contained" href="https://www.coloradocollege.edu/offices/qrc/" target="_blank">Colorado College QRC Page</Button>
+            <Button style={{marginRight: "auto"}} color="secondary" variant="contained" href="https://www.coloradocollege.edu/offices/qrc/" target="_blank">Colorado College QRC Page</Button>
           </div>
           <p></p>
           <div style={{display: "flex"}}>
@@ -47,9 +47,9 @@ class MainTutor extends Component {
             <li><NavLink to="/profile">Profile</NavLink></li>
           </ul>
           <div className="content">
-             <Route exact path="/" component={HomeAdmin}/>
-	           <Route path="/preferences" component={PreferencesAdmin}/>
-	           <Route path="/profile" component={ProfileAdmin}/>
+             <Route exact path="/" component={HomeTutor}/>
+	           <Route path="/preferences" component={PreferencesTutor}/>
+	           <Route path="/profile" component={ProfileTutor}/>
           </div>
         </div>
       </BrowserRouter>
