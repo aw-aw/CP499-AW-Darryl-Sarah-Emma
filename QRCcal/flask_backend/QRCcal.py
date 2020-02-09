@@ -1,4 +1,4 @@
-from flask import Flask, render_template, json, request, jsonify
+    from flask import Flask, render_template, json, request, jsonify
 from flask_cas import CAS
 from flask_cas import login_required
 from flask_cas import login

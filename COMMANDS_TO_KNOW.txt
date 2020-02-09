@@ -25,3 +25,7 @@ MariaDB on server:
 * check status: systemctl status mariadb.service
 * mysql -u root -p: login to root user
 	* password: press enter
+* USE qrcCal
+
+Access Apache ErrorLog
+* tail -n 100 -F /var/log/httpd/error_log
