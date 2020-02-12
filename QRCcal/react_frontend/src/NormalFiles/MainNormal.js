@@ -17,7 +17,6 @@ class MainNormal extends Component {
         <div>
           <div style={{display: "flex"}}>
             <Button style={{marginRiight: "auto"}} color="secondary" variant="contained" href="https://www.coloradocollege.edu/offices/qrc/" target="_blank">Colorado College QRC Page</Button>
-            <Button style={{marginLeft: "auto"}} color="secondary"><Avatar>Hi</Avatar></Button>
           </div>
           <p></p>
           <div style={{display: "flex"}}>

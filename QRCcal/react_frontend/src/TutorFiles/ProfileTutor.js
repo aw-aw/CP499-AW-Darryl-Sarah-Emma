@@ -51,30 +51,19 @@ class Disciplines extends React.Component {
 class MaxShifts extends React.Component {
   state = {
     selected: null,
-    hasError: false,
     isActive: true
   };
   handleChange(value) {
-    if (typeof value == "string"){
-      value = 0;
-    }
     this.setState({ selected: value });
  }
- handleClick(value, username) {
-    this.setState({ hasError: false });
-    if (!this.state.selected) {
-      this.setState({ hasError: true });
-    }
-    else {
-      var full_request = 'UPDATE users SET desiredShifts=\'' + value + '\' WHERE username=\'' + username + "\'"
-      $.post("post", {input: full_request, category:"button"});
-    }
+ handleClick() {
+    $.post("post", {input: `UPDATE users SET desiredShifts='${this.state.selected}' WHERE username='${this.props.user_name}'`, category:"button"});
   }
   render() {
     const { classes } = this.props;
-    const { selected, hasError } = this.state;
+    const { selected } = this.state;
     var user_name = this.props.user_name;
-    const list = [<MenuItem value="Zero">0</MenuItem>,
+    const list = [<MenuItem value={0}>0</MenuItem>,
             <MenuItem value={1}>1</MenuItem>,
             <MenuItem value={2}>2</MenuItem>,
             <MenuItem value={3}>3</MenuItem>,
@@ -88,14 +77,17 @@ class MaxShifts extends React.Component {
     return (
       <Grid item xs alignItems="center">
         <h3>Max Shifts</h3>
-        <FormControl align="center" style={{minWidth: 200}} error={hasError}>
-          <Request type="get_max_shifts" sent={"SELECT desiredShifts FROM users WHERE username=\'" + user_name + "\';"}/>
+        <FormControl align="center" style={{minWidth: 200}}>
+          <Request type="get_max_shifts" sent={`SELECT desiredShifts FROM users WHERE username='${this.props.user_name}'`}/>
           <Select value={selected} onChange={event => this.handleChange(event.target.value)}>
             {list}
           </Select>
-          <Button onClick={() => this.handleClick(this.state.selected, window.user_name)} size="medium" color="primary" variant="filled" startIcon={<SaveIcon />}>save</Button>
-        </FormControl>
-      </Grid>
+          </FormControl>
+          <Grid item xs> 
+            <p></p>
+            <Button onClick={() => this.handleClick()} size="medium" color="primary" variant="filled" startIcon={<SaveIcon />}>save</Button>
+          </Grid>
+       </Grid>
     )
   }
 }
@@ -127,12 +119,17 @@ class ShiftsLastBlock extends React.Component {
 }
 
 class CurrentShifts extends React.Component {
+  state={current_block:null};
+  componentDidMount(){
+    $.post("post",{input:"SELECT currentBlock FROM currentBlock WHERE id=1",category:"get_current_block"},function(data){this.setState({current_block:data});}.bind(this));
+  } 
   render() {
+   const { current_block } = this.state;
    var user_name = this.props.user_name;
     return (
       <Grid item xs style={{backgroundColor: '#FFFFFF', color: 'black', borderColor: 'primary', borderRadius: 16}}>
        <div>
-          <h3>My Current Shifts Block 5</h3>
+          <h3>My Current Shifts Block {this.state.current_block}</h3>
           <Request type="get_assigned_shifts" sent={"SELECT * FROM assignedshifts WHERE username=\'" + user_name + "\';"}/>
         </div>
       </Grid>
@@ -141,13 +138,18 @@ class CurrentShifts extends React.Component {
 }
 
 class PreferredShifts extends React.Component {
+  state={current_block:null};
+  componentDidMount(){
+    $.post("post",{input:"SELECT currentBlock FROM currentBlock WHERE id=1",category:"get_next_block"},function(data){this.setState({current_block:data});}.bind(this));
+  } 
   render() {
     var user_name = this.props.user_name;
+    const { current_block } = this.state;
     return (
       <Grid item xs>
 	<div>
-          <h3>My Preferred Shifts Block(database block #)</h3>
-	  <Request type="get_assigned_shifts" sent={"SELECT * FROM preferredshifts WHERE username=\'" + user_name + "\';"}/>
+          <h3>My Preferred Shifts Block {this.state.current_block}</h3>
+	  <Request type="get_pref_shifts" sent={"SELECT * FROM preferredshifts WHERE username=\'" + user_name + "\';"}/>
         </div>
       </Grid>
     )
@@ -155,12 +157,17 @@ class PreferredShifts extends React.Component {
 }
 
 class BusyShifts extends React.Component {
+  state={current_block:null};
+  componentDidMount(){
+    $.post("post",{input:"SELECT currentBlock FROM currentBlock WHERE id=1",category:"get_next_block"},function(data){this.setState({current_block:data});}.bind(this));
+  } 
   render() {
+    const { current_block } = this.state;
     var user_name = this.props.user_name;
     return (
       <Grid item xs>
         <div>
-          <h3>My Busy Shifts Block(database block #)</h3>
+          <h3>My Busy Shifts Block {this.state.current_block}</h3>
           <Request type="get_busy_shifts" sent={"SELECT * FROM BusyShifts WHERE username=\'" + user_name + "\';"}/>
         </div>
       </Grid>
@@ -180,7 +187,7 @@ class Profile extends Component {
             <LA user_name={window.user_name}/>
             <ShiftsLastBlock user_name={window.user_name} />
           </Grid>
-          <Grid container spacing={2}>
+          <Grid container spacing={3} justify="center">
             <CurrentShifts user_name={window.user_name}/>
             <PreferredShifts user_name={window.user_name}/>
             <BusyShifts user_name={window.user_name}/>

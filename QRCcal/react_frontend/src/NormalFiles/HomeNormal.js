@@ -42,28 +42,32 @@ class ShiftPopUp extends Component{
         {close => (
         <div>   
 	  <div>
-            <h2 id="shifttitle">Scheduled Shifts</h2>
-            <Request type="get_pref_shifts" sent= {"SELECT * FROM assignedshifts WHERE shift= \'" + short_shift + "\';"}/>
+            <h2 id="shifttitle" align="center">Scheduled Shifts</h2>
+            <p id="assigned" align="center"> 
+            </p>
           </div>
+	  <Request type="get_pref_shifts" sent= {"SELECT * FROM assignedshifts WHERE shift= \'" + short_shift + "\';"}/>
         </div>
 	)}
       </Popup>
   </Grid>)
   }
-}
+  }
+
 
 class HomeNormal extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {};
+  state={current_block:null};
+  componentDidMount(){
+    $.post("post",{input:"SELECT currentBlock FROM currentBlock WHERE id=1",category:"get_current_block"},function(data){this.setState({current_block:data});}.bind(this));
   }
   render() {
+    const { current_block }=this.state;
     return (
       <div>
       <ThemeProvider theme={theme}>
-        <h1 align="center">Block 5 Shifts (Tutor)</h1>
+        <h1 align="center">Block {this.state.current_block} Shifts</h1>
         <Grid container spacing={2}>
-          <Grid item xs>
+           <Grid item xs>
             <p>Sunday: {moment().isoWeekday(7).format('MM/DD')}</p>
             <ShiftPopUp button ="2-4" short_shift="SUN2"/>
             <p></p>
@@ -73,7 +77,7 @@ class HomeNormal extends Component {
             <p></p>
             <ShiftPopUp button="8-10" short_shift="SUN8"/>
           </Grid>
-          <Grid item xs>
+           <Grid item xs>
             <p>Monday: {moment().isoWeekday(1).format('MM/DD')}</p>
             <ShiftPopUp button="2-4" short_shift="MON2"/>
             <p></p>

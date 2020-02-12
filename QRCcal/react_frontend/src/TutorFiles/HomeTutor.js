@@ -42,8 +42,8 @@ class ShiftPopUp extends Component{
         {close => (
         <div>   
 	  <div>
-            <h2 id="shifttitle">Scheduled Shifts</h2>
-            <p id="assigned"> 
+            <h2 id="shifttitle" align="center">Scheduled Shifts</h2>
+            <p id="assigned" align="center"> 
             </p>
           </div>
 	  <Request type="get_pref_shifts" sent= {"SELECT * FROM assignedshifts WHERE shift= \'" + short_shift + "\';"}/>
@@ -52,7 +52,8 @@ class ShiftPopUp extends Component{
       </Popup>
   </Grid>)
   }
- }
+  }
+//}
 
 class HomeTutor extends Component {
   state={current_block:null};
@@ -60,7 +61,7 @@ class HomeTutor extends Component {
     $.post("post",{input:"SELECT currentBlock FROM currentBlock WHERE id=1",category:"get_current_block"},function(data){this.setState({current_block:data});}.bind(this));
   }
   render() {
-    const { current_block } = this.state;
+    const { current_block }=this.state;
     return (
       <div>
       <ThemeProvider theme={theme}>

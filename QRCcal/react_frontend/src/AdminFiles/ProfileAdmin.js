@@ -90,7 +90,7 @@ class UpdateLA extends React.Component {
     if (!this.state.selected && !this.state.selected_two) {
       this.setState({ hasError: true });
     }
-    else { 
+    else {
      $.post("post", {input: `UPDATE users SET isLA='${this.state.selected_two}' WHERE username='${this.state.selected}'`, category:"button"});
     }
   }
@@ -192,7 +192,7 @@ class ScheduleShifts extends React.Component {
       var full_request='UPDATE currentBlock SET currentBlock=\'' + value + '\' WHERE id=\'1\''
       $.post("post", {input: full_request, category: "schedule_shifts"});
     }
-  } 
+  }
   render() {
     const { classes } = this.props;
     const { selected, hasError } = this.state;
@@ -252,7 +252,7 @@ class AddUser extends React.Component {
   }
   handleClick() {
     $.post("post", {input: `INSERT INTO LoggedOutUser (username) VALUES ('${this.state.username_text}')`, category: "updated_user"});
-    $.post("post",  {input: `INSERT INTO users (username, isLA, isAdmin, name) VALUES ('${this.state.username_text}','${this.state.selected}','${this.state.selected_admin}','${this.state.fullname_text}')`, category:"add_user"}, function(data){this.setState({add_user_popup: data});}.bind(this)); 
+    $.post("post",  {input: `INSERT INTO users (username, isLA, isAdmin, name) VALUES ('${this.state.username_text}','${this.state.selected}','${this.state.selected_admin}','${this.state.fullname_text}')`, category:"add_user"}, function(data){this.setState({add_user_popup: data});}.bind(this));
   }
   render(){
     const { classes } = this.props;
@@ -352,7 +352,7 @@ class RemoveTutor extends React.Component {
       this.setState({ hasError: true });
     }
     else {
-      $.post("post", {input: `INSERT INTO LoggedOutUser (username) VALUES ('${this.state.selected}')`, category: "updated_user"}); 
+      $.post("post", {input: `INSERT INTO LoggedOutUser (username) VALUES ('${this.state.selected}')`, category: "updated_user"});
       $.post("post", {input: `$DELETE FROM BusyShifts WHERE username='${this.state.selected}'$DELETE FROM assignedshifts WHERE username='${this.state.selected}'$DELETE FROM preferredshifts WHERE username='${this.state.selected}'$DELETE FROM discipline WHERE username='${this.state.selected}'$DELETE FROM users WHERE username='${this.state.selected}'`, category:"clear_tutor"});
     }
   }
@@ -421,7 +421,7 @@ class TutorDisciplines extends React.Component {
     if (!this.state.selected && !this.state.selected_two) {
       this.setState({ hasError: true });
     }
-    else { 
+    else {
      $.post("post", {input: `INSERT INTO discipline (discipline, username) VALUES ('${this.state.selected_two}','${this.state.selected}')`, category:"button"});
     }
   }
@@ -473,7 +473,7 @@ class TutorDisciplines extends React.Component {
                          {discipline_list}
                        </Select>
                      </FormControl>
-                   </Grid> 
+                   </Grid>
                 </Grid>
                 <Grid container spacing={1}>
                  <Button onClick={() => this.handleClick()} size="large" color="primary" variant="outlined" startIcon={<SaveIcon />}>Add</Button>
@@ -503,7 +503,7 @@ class ProfileAdmin extends Component {
               <RemoveTutor />
               <p />
               <TutorDisciplines />
-              <p /> 
+              <p />
               <ScheduleShifts />
               <p />
               <UpdateLA />

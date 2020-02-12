@@ -42,8 +42,8 @@ class ShiftPopUp extends Component{
         {close => (
         <div>   
 	  <div>
-            <h2 id="shifttitle">Scheduled Shifts</h2>
-            <p id="assigned"> 
+            <h2 id="shifttitle" align="center">Scheduled Shifts</h2>
+            <p id="assigned" align="center"> 
             </p>
           </div>
 	  <Request type="get_pref_shifts" sent= {"SELECT * FROM assignedshifts WHERE shift= \'" + short_shift + "\';"}/>

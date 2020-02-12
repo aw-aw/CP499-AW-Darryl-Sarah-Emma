@@ -37,7 +37,7 @@ class Request extends React.Component{
           const item = <p>{arr[i]}</p>;
           array.push(item);
         }
-        return<p>{array}</p>
+        return<p align>{array}</p>
       }
       else if(this.props.type=="get_discipline_list"){
        var arr = this.state.response.split("\n");

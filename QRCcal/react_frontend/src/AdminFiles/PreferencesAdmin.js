@@ -93,32 +93,22 @@ class ShiftPopUp extends Component{
      if (this.state.isActive){
        return(
         <Grid item xs>
+          <div align="center">
           <Popup trigger={<Button size="large" color="primary" borderColor="secondary.main" variant="outlined" fullWidth="true">{this.props.button}</Button>} modal={true}>
             {close => (
               <div>
                 <div>
-                  <h4>Current Preferences Entered By Tutors:</h4>
+                  <h2>Current Preferences Entered By Tutors:</h2>
                   <Request type="get_pref_shifts" sent={"SELECT * FROM preferredshifts WHERE shift = \'" + short_shift + "\';"}/>
                 </div>
-                <h4>Add Preferred Shift {this.props.shift}</h4>
                 <Grid item xs>
-                  <FormControl align="center" style={{minWidth: 200}} error={hasError}>
-                    <InputLabel>Disciplines</InputLabel>
-                    <Select value={selected} onChange = {event => this.handleChange(event.target.value)}>
-                      {array}
-                    </Select>
-                    <Button onClick={() => {this.handleClick(); close(); }} size="medium" color="primary" variant="filled" startIcon={<SaveIcon />}>Add Preference</Button>
-                    <Button onClick={() => {this.handleClick2(); close(); }} size="medium" color="primary" variant="filled" startIcon={<SaveIcon />}>Remove Preference</Button>
-                    <Button onClick={() => {this.handleClick3(); close(); }} size="medium" color="primary" variant="filled" startIcon={<SaveIcon />}>Busy</Button> 
-                    <Button onClick={() => {this.handleClick4(); close(); }} size="medium" color="primary" variant="filled" startIcon={<SaveIcon />}>No Longer Busy</Button>   
+                  <FormControl align="center" style={{minWidth: 200}} error={hasError}> 
                   </FormControl>
                 </Grid>
               </div>
             )}
           </Popup>
-          <script>
-            this.forceUpdate();
-          </script>
+          </div>
         </Grid>)
       }
       return (<div></div>)
@@ -135,13 +125,15 @@ class PreferencesAdmin extends Component{
    render() {
      const { current_block }=this.state;
     return (
-      <div>
+     <div>
       <ThemeProvider theme={theme}>
         <h1 align="center">Discipline Framework</h1>
-         <Grid container style={{height:200}} spacing={2}>
+        <h3 align="center">Key:</h3>
+         <Grid container style={{height:200}} spacing={2} justify="center">
            <Grid item style={{height:25}} xs>
+             <h5 align="left">Ch = Chemistry</h5>
              <p style={{height:0}}><b>Sunday</b></p>
-             <Grid container borderRadius="borderRadius" spacing={0} direction="column">
+             <Grid container borderRadius="borderRadius" spacing={0} direction="column" justify="center">
                <Grid item style={{height:25}} xs>
                 <p>2-4: Ch M E</p>
                </Grid>
@@ -157,8 +149,9 @@ class PreferencesAdmin extends Component{
              </Grid>
            </Grid>
            <Grid item style={{height:25}} xs>
+             <h5 align="left">CS = Computer Science</h5>
              <p style={{height:0}}><b>Monday</b></p>
-             <Grid container direction="column" spacing={0}>
+             <Grid container direction="column" spacing={0} justify="center">
                <Grid item style={{height:25}} xs>
                  <p>2-4: M</p>
                </Grid>
@@ -174,8 +167,9 @@ class PreferencesAdmin extends Component{
              </Grid>
            </Grid>
            <Grid item style={{height:25}} xs>
+             <h5 align="left">E = Economics</h5>
              <p style={{height:0}}><b>Tuesday</b></p>
-             <Grid container direction="column" spacing={0}>
+             <Grid container direction="column" spacing={0} justify="center">
                <Grid item style={{height:25}} xs>
                  <p>2-4: M</p>
                </Grid>
@@ -190,9 +184,10 @@ class PreferencesAdmin extends Component{
                </Grid>
              </Grid>
            </Grid>
-           <Grid item style={{height:25}} xs>
+           <Grid item style={{height:25}} xs justify="center">
+             <h5 align="left">M = Mathematics</h5>
              <p style={{height:0}}><b>Wednesday</b></p>
-             <Grid container direction="column" spacing={0}>
+             <Grid container direction="column" spacing={0} justify="center">
                <Grid item style={{height:25}} xs>
                  <p>2-4: M</p>
                </Grid>
@@ -208,8 +203,9 @@ class PreferencesAdmin extends Component{
              </Grid>
            </Grid>
            <Grid item style={{height:25}} xs>
+             <h5 align="left">P = Physics</h5> 
              <p style={{height:0}}><b>Thursday</b></p>
-             <Grid container direction="column" spacing={0}>
+             <Grid container direction="column" spacing={0} justify="center">
                <Grid item style={{height:25}} xs>
                  <p>2-4: M</p>
                </Grid>
@@ -226,7 +222,7 @@ class PreferencesAdmin extends Component{
            </Grid>
          </Grid>
         <h1 align="center">Block {this.state.current_block} Preferred Shifts</h1>
-        <Grid container spacing={2}>
+        <Grid container spacing={2} justify="center">
           <Grid item xs>
             <p>Sunday: {moment().isoWeekday(7).format('MM/DD')}</p>
             <ShiftPopUp shift="Sunday (2-4)" short_shift="SUN2" button="2-4"/>
