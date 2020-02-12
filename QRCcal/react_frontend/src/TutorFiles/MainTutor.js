@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Button, Box } from "@material-ui/core";
+import { Select, FormControl, NativeSelect, MenuItem, InputLabel, FormHelperText, Button, Box} from "@material-ui/core";
 import {
   Route,
   NavLink,
@@ -8,10 +8,9 @@ import {
 import HomeTutor from "./HomeTutor";
 import PreferencesTutor from "./PreferencesTutor";
 import ProfileTutor from "./ProfileTutor";
-import Logo from "./logo.png";
+import Logo from "../logo.png";
 import Image from "react-image-resizer";
 import { createMuiTheme } from '@material-ui/core/styles';
-
 
 const theme = createMuiTheme({
   palette: {
@@ -36,7 +35,7 @@ class MainTutor extends Component {
       <BrowserRouter>
         <div>
           <div style={{display: "flex"}}>
-            <Button style={{marginRight: "auto"}} color="secondary" variant="contained" href="https://www.coloradocollege.edu/offices/qrc/" target="_blank">Colorado College QRC Page</Button>
+            <Button style={{marginRiight: "auto"}} color="secondary" variant="contained" href="https://www.coloradocollege.edu/offices/qrc/" target="_blank">Colorado College QRC Page</Button>
           </div>
           <p></p>
           <div style={{display: "flex"}}>

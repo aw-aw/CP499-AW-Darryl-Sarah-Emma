@@ -44,6 +44,114 @@ const theme2 = createMuiTheme({
   },
 })
 
+class PossibleShiftsPopUp extends Component{
+  render(){
+    return(
+      <Popup trigger={<Button size="small" color="primary" borderColor="secondary.main" variant="outlined" fullWidth="true">{this.props.button}</Button>} modal={true}>
+        {close => (
+         <Grid container spacing={8}>
+           <Grid item xs>
+             <p><b>Sunday</b></p>
+             <Grid container spacing={2}>
+               <Grid item xs>
+                <p>"2-4:"</p>
+                <p>Ch</p>
+                <p>M</p>
+                <p>E</p>
+               </Grid>
+               <Grid item xs>
+               </Grid>
+               <Grid item xs>
+               </Grid>
+               <Grid item xs>
+               </Grid>
+             </Grid>
+           </Grid>
+           <Grid item xs>
+             <p><b>Monday</b></p>
+             <Grid container spacing={2}>
+               <Grid item xs>
+               </Grid>
+               <Grid item xs>
+               </Grid>
+               <Grid item xs>
+               </Grid>
+               <Grid item xs>
+               </Grid>
+             </Grid>
+           </Grid>
+           <Grid item xs>
+             <p><b>Tuesday</b></p>
+             <Grid container spacing={2}>
+               <Grid item xs>
+               </Grid>
+               <Grid item xs>
+               </Grid>
+               <Grid item xs>
+               </Grid>
+               <Grid item xs>
+               </Grid>
+             </Grid>
+           </Grid>
+           <Grid item xs>
+             <p><b>Wednesday</b></p>
+             <Grid container spacing={2}>
+               <Grid item xs>
+               </Grid>
+               <Grid item xs>
+               </Grid>
+               <Grid item xs>
+               </Grid>
+               <Grid item xs>
+               </Grid>
+             </Grid>
+           </Grid>
+           <Grid item xs>
+             <p><b>Thursday</b></p>
+             <Grid container spacing={2}>
+               <Grid item xs>
+               </Grid>
+               <Grid item xs>
+               </Grid>
+               <Grid item xs>
+               </Grid>
+               <Grid item xs>
+               </Grid>
+             </Grid>
+           </Grid>
+           <Grid item xs>
+             <p><b>Friday</b></p>
+             <Grid container spacing={2}>
+               <Grid item xs>
+               </Grid>
+               <Grid item xs>
+               </Grid>
+               <Grid item xs>
+               </Grid>
+               <Grid item xs>
+               </Grid>
+             </Grid>
+           </Grid>
+           <Grid item xs>
+             <p><b>Saturday</b></p>
+             <Grid container spacing={2}>
+               <Grid item xs>
+               </Grid>
+               <Grid item xs>
+               </Grid>
+               <Grid item xs>
+               </Grid>
+               <Grid item xs>
+               </Grid>
+             </Grid>
+           </Grid>
+         </Grid>
+       )}
+      </Popup>
+    )
+  }
+}
+
 class ShiftPopUp extends Component{
   state = {
     selected: null,
@@ -127,105 +235,17 @@ class ShiftPopUp extends Component{
   }
 }
 
-class PreferencesAdmin extends Component{
-  state={current_block:null};
-  componentDidMount(){
-    $.post("post",{input:"SELECT currentBlock FROM currentBlock WHERE id=1",category:"get_next_block"},function(data){this.setState({current_block:data});}.bind(this));
-  } 
-   render() {
-     const { current_block }=this.state;
+class PreferencesTutor extends Component {
+  render() {
     return (
       <div>
       <ThemeProvider theme={theme}>
-        <h1 align="center">Discipline Framework</h1>
-         <Grid container style={{height:200}} spacing={2}>
-           <Grid item style={{height:25}} xs>
-             <p style={{height:0}}><b>Sunday</b></p>
-             <Grid container borderRadius="borderRadius" spacing={0} direction="column">
-               <Grid item style={{height:25}} xs>
-                <p>2-4: Ch M E</p>
-               </Grid>
-               <Grid item style={{height:25}} xs>
-                <p>4-6: Ch CS E M P</p>
-               </Grid>
-               <Grid item style={{height:25}} xs>
-                <p>6-8: Ch CS M</p>
-               </Grid>
-               <Grid item style={{height:25}} xs>
-                <p>8-10: Ch CS E M P</p>
-               </Grid>
-             </Grid>
-           </Grid>
-           <Grid item style={{height:25}} xs>
-             <p style={{height:0}}><b>Monday</b></p>
-             <Grid container direction="column" spacing={0}>
-               <Grid item style={{height:25}} xs>
-                 <p>2-4: M</p>
-               </Grid>
-               <Grid item style={{height:25}} xs>
-                 <p>4-6: Ch CS P</p>
-               </Grid>
-               <Grid item style={{height:25}} xs>
-                 <p>6-8: Ch E M</p>
-               </Grid>
-               <Grid item style={{height:25}} xs>
-                 <p>8-10: Ch CS E M P</p>
-               </Grid>
-             </Grid>
-           </Grid>
-           <Grid item style={{height:25}} xs>
-             <p style={{height:0}}><b>Tuesday</b></p>
-             <Grid container direction="column" spacing={0}>
-               <Grid item style={{height:25}} xs>
-                 <p>2-4: M</p>
-               </Grid>
-               <Grid item style={{height:25}} xs>
-                 <p>4-6: Ch CS E M P</p>
-               </Grid>
-               <Grid item style={{height:25}} xs>
-                 <p>6-8: Ch M P</p>
-               </Grid>
-               <Grid item style={{height:25}} xs>
-                 <p>8-10: Ch CS E P</p>
-               </Grid>
-             </Grid>
-           </Grid>
-           <Grid item style={{height:25}} xs>
-             <p style={{height:0}}><b>Wednesday</b></p>
-             <Grid container direction="column" spacing={0}>
-               <Grid item style={{height:25}} xs>
-                 <p>2-4: M</p>
-               </Grid>
-               <Grid item style={{height:25}} xs>
-                 <p>4-6: Ch CS E M P</p>
-               </Grid>
-               <Grid item style={{height:25}} xs>
-                 <p>6-8: Ch CS M</p>
-               </Grid>
-               <Grid item style={{height:25}} xs>
-                 <p>8-10: Ch CS E M P</p>
-               </Grid>
-             </Grid>
-           </Grid>
-           <Grid item style={{height:25}} xs>
-             <p style={{height:0}}><b>Thursday</b></p>
-             <Grid container direction="column" spacing={0}>
-               <Grid item style={{height:25}} xs>
-                 <p>2-4: M</p>
-               </Grid>
-               <Grid item style={{height:25}} xs>
-                 <p>4-6: Ch CS E M P</p>
-               </Grid>
-               <Grid item style={{height:25}} xs>
-                 <p>6-8: Ch CS E M</p>
-               </Grid>
-               <Grid item style={{height:25}} xs>
-                 <p>8-10: Ch CS E M P</p>
-               </Grid>
-             </Grid>
-           </Grid>
-         </Grid>
-        <h1 align="center">Block {this.state.current_block} Preferred Shifts</h1>
+        <h1 align="center">Block 6 Preferred Shifts</h1>
+        <Grid container spacing={2}>
+          <Grid item xs>
+            <PossibleShiftsPopUp button="THESE ARE THE SHIFTS YOU CAN WORK"/>
+          </Grid>
+        </Grid>
         <Grid container spacing={2}>
           <Grid item xs>
             <p>Sunday: {moment().isoWeekday(7).format('MM/DD')}</p>
@@ -290,4 +310,4 @@ class PreferencesAdmin extends Component{
   }
 }
 
-export default PreferencesAdmin;
+export default PreferencesTutor;

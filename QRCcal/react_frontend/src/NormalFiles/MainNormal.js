@@ -7,7 +7,7 @@ import {
   BrowserRouter
 } from "react-router-dom";
 import HomeNormal from "./HomeNormal";
-import Logo from "./logo.png";
+import Logo from "../logo.png";
 import Image from "react-image-resizer";
 
 class MainNormal extends Component {

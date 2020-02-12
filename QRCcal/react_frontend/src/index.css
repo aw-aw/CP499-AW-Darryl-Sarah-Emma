@@ -1,10 +1,10 @@
 body {
-  background-color: #DAA520;
+  background-color: #d19d2c;
   padding: 20px;
   margin: 0;
 }
-h1, h2, p, ul, li {
-  font-family: arial;
+h1, h2, h3, p, ul, li {
+  font-family: optima;
 }
 ul.header li {
   display: inline;
@@ -44,5 +44,14 @@ ul.header li a {
 
 #sitetitle {
   padding-top: 0px;
+  padding-bottom: 0px;
   font-size: 40px;
+}
+
+#modalPopUp {
+  width: 100%
+}
+
+#framework {
+  padding: 0px;
 }

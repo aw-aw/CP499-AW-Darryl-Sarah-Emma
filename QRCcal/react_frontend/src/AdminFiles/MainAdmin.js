@@ -8,10 +8,9 @@ import {
 import HomeAdmin from "./HomeAdmin";
 import PreferencesAdmin from "./PreferencesAdmin";
 import ProfileAdmin from "./ProfileAdmin";
-import Logo from "./logo.png";
+import Logo from "../logo.png";
 import Image from "react-image-resizer";
 import { createMuiTheme } from '@material-ui/core/styles';
-
 const theme = createMuiTheme({
   palette: {
     primary: {
@@ -35,7 +34,7 @@ class MainAdmin extends Component {
       <BrowserRouter>
         <div>
           <div style={{display: "flex"}}>
-            <Button style={{marginRight: "auto"}} color="secondary" variant="contained" href="https://www.coloradocollege.edu/offices/qrc/" target="_blank">Colorado College QRC Page</Button>
+            <Button style={{marginRiight: "auto"}} color="secondary" variant="contained" href="https://www.coloradocollege.edu/offices/qrc/" target="_blank">Colorado College QRC Page</Button>
           </div>
           <p></p>
           <div style={{display: "flex"}}>

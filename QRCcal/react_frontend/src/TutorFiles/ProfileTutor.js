@@ -8,14 +8,14 @@ import ThemeProvider from '@material-ui/styles/ThemeProvider';
 import orange from '@material-ui/core/colors/purple';
 import moment from "moment";
 import { makeStyles } from '@material-ui/core/styles';
-import "./Home.css";
+import "../Home.css";
 import { borders } from '@material-ui/system';
 import { FormControl } from '@material-ui/core';
 import { NativeSelect } from '@material-ui/core';
 import { MenuItem, Select, InputLabel, FormHelperText } from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
-import * as $ from 'jquery'
+import SaveIcon from '@material-ui/icons/Save';
 import { Request } from '../Request.js'
+import * as $ from 'jquery';
 
 const theme = createMuiTheme({
   palette: {
@@ -36,12 +36,14 @@ const theme = createMuiTheme({
 
 class Disciplines extends React.Component {
   render () {
+  var user_name = this.props.user_name;
     return (
       <Grid item xs>
-        <h5 align="center">Disciplines</h5>
-        <p align="center">Mathematics</p>
-        <p align="center">Economics</p>
-      </Grid>
+	<div>
+          <h3>Disciplines</h3>
+          <Request type="get_discipline_list" sent={"SELECT * FROM discipline WHERE username=\'" + user_name + "\';"}/>
+        </div>
+      </Grid> 
     )
   }
 }
@@ -49,49 +51,49 @@ class Disciplines extends React.Component {
 class MaxShifts extends React.Component {
   state = {
     selected: null,
-    hasError: false
+    hasError: false,
+    isActive: true
   };
   handleChange(value) {
+    if (typeof value == "string"){
+      value = 0;
+    }
     this.setState({ selected: value });
  }
- handleClick() {
+ handleClick(value, username) {
     this.setState({ hasError: false });
     if (!this.state.selected) {
       this.setState({ hasError: true });
+    }
+    else {
+      var full_request = 'UPDATE users SET desiredShifts=\'' + value + '\' WHERE username=\'' + username + "\'"
+      $.post("post", {input: full_request, category:"button"});
     }
   }
   render() {
     const { classes } = this.props;
     const { selected, hasError } = this.state;
+    var user_name = this.props.user_name;
+    const list = [<MenuItem value="Zero">0</MenuItem>,
+            <MenuItem value={1}>1</MenuItem>,
+            <MenuItem value={2}>2</MenuItem>,
+            <MenuItem value={3}>3</MenuItem>,
+            <MenuItem value={4}>4</MenuItem>,
+            <MenuItem value={5}>5</MenuItem>,
+            <MenuItem value={6}>6</MenuItem>,
+            <MenuItem value={7}>7</MenuItem>,
+            <MenuItem value={8}>8</MenuItem>,
+            <MenuItem value={9}>9</MenuItem>,
+            <MenuItem value={10}>10</MenuItem>]
     return (
-      <Grid item xs>
-        <h3 align="center">Max Shifts</h3>
-        <FormControl style={{minWidth: 200}} error={hasError}>
-          <InputLabel>Discipline</InputLabel>
+      <Grid item xs alignItems="center">
+        <h3>Max Shifts</h3>
+        <FormControl align="center" style={{minWidth: 200}} error={hasError}>
+          <Request type="get_max_shifts" sent={"SELECT desiredShifts FROM users WHERE username=\'" + user_name + "\';"}/>
           <Select value={selected} onChange={event => this.handleChange(event.target.value)}>
-            <MenuItem value={0}>0</MenuItem>
-            <MenuItem value={1}>1</MenuItem>
-            <MenuItem value={2}>2</MenuItem>
-            <MenuItem value={3}>3</MenuItem>
-            <MenuItem value={4}>4</MenuItem>
-            <MenuItem value={5}>5</MenuItem>
-            <MenuItem value={6}>6</MenuItem>
-            <MenuItem value={7}>7</MenuItem>
-            <MenuItem value={8}>8</MenuItem>
-            <MenuItem value={9}>9</MenuItem>
-            <MenuItem value={10}>10</MenuItem>
-            <MenuItem value={11}>11</MenuItem>
-            <MenuItem value={12}>12</MenuItem>
-            <MenuItem value={13}>13</MenuItem>
-            <MenuItem value={14}>14</MenuItem>
-            <MenuItem value={15}>15</MenuItem>
-            <MenuItem value={16}>16</MenuItem>
-            <MenuItem value={17}>17</MenuItem>
-            <MenuItem value={18}>18</MenuItem>
-            <MenuItem value={19}>19</MenuItem>
-            <MenuItem value={20}>20</MenuItem>
+            {list}
           </Select>
-          <Button onClick={() => this.handleClick()} size="medium" color="primary" variant="filled" startIcon={<SaveIcon />}>save</Button>
+          <Button onClick={() => this.handleClick(this.state.selected, window.user_name)} size="medium" color="primary" variant="filled" startIcon={<SaveIcon />}>save</Button>
         </FormControl>
       </Grid>
     )
@@ -100,10 +102,13 @@ class MaxShifts extends React.Component {
 
 class LA extends React.Component {
   render() {
+    var user_name = this.props.user_name;
     return (
       <Grid item xs>
-        <h3 align="center">LA Last Block</h3>
-        <p align="center">database</p>
+        <div>
+          <h3>LA Last Block</h3>
+          <Request type="get_la_status" sent={"SELECT * FROM users WHERE username=\'" + user_name + "\';"}/>
+        </div>
       </Grid>
     )
   }
@@ -111,10 +116,11 @@ class LA extends React.Component {
 
 class ShiftsLastBlock extends React.Component {
   render() {
-    return(
+    var user_name = this.props.user_name;
+    return (
       <Grid item xs>
-        <h3 align="center">Shifts Last Block</h3>
-        <p align="center">database</p>
+        <h3>Hours Last Block</h3>
+        <Request type="get_last_shifts" sent={"SELECT * FROM assignedshifts WHERE username=\'" + user_name + "\';"}/>
       </Grid>
     )
   }
@@ -122,10 +128,13 @@ class ShiftsLastBlock extends React.Component {
 
 class CurrentShifts extends React.Component {
   render() {
+   var user_name = this.props.user_name;
     return (
       <Grid item xs style={{backgroundColor: '#FFFFFF', color: 'black', borderColor: 'primary', borderRadius: 16}}>
-        <h3 align="center">My Current Shifts Block 5</h3>
-        <p align="center">database</p>
+       <div>
+          <h3>My Current Shifts Block 5</h3>
+          <Request type="get_assigned_shifts" sent={"SELECT * FROM assignedshifts WHERE username=\'" + user_name + "\';"}/>
+        </div>
       </Grid>
     )
   }
@@ -133,30 +142,48 @@ class CurrentShifts extends React.Component {
 
 class PreferredShifts extends React.Component {
   render() {
+    var user_name = this.props.user_name;
     return (
       <Grid item xs>
-        <h3 align="center">My Preferred Shifts Block(database block #)</h3>
-        <p align="center">database</p>
+	<div>
+          <h3>My Preferred Shifts Block(database block #)</h3>
+	  <Request type="get_assigned_shifts" sent={"SELECT * FROM preferredshifts WHERE username=\'" + user_name + "\';"}/>
+        </div>
       </Grid>
     )
   }
 }
 
-class ProfileTutor extends Component {
+class BusyShifts extends React.Component {
+  render() {
+    var user_name = this.props.user_name;
+    return (
+      <Grid item xs>
+        <div>
+          <h3>My Busy Shifts Block(database block #)</h3>
+          <Request type="get_busy_shifts" sent={"SELECT * FROM BusyShifts WHERE username=\'" + user_name + "\';"}/>
+        </div>
+      </Grid>
+    )
+  }
+}
+
+class Profile extends Component {
   render() {
     return (
       <div>
         <ThemeProvider theme={theme}>
-        <h1 align="center">(Name) Profile</h1>
+        <h1 align="center">My Profile</h1>
           <Grid container spacing={4} style={{backgroundColor: '#FFFFFF', borderColor: '#DAA520'}}>
-            <Disciplines />
-            <MaxShifts />
-            <LA />
-            <ShiftsLastBlock />
+            <Disciplines user_name={window.user_name}/>
+            <MaxShifts user_name={window.user_name}/>
+            <LA user_name={window.user_name}/>
+            <ShiftsLastBlock user_name={window.user_name} />
           </Grid>
           <Grid container spacing={2}>
-            <CurrentShifts />
-            <PreferredShifts />
+            <CurrentShifts user_name={window.user_name}/>
+            <PreferredShifts user_name={window.user_name}/>
+            <BusyShifts user_name={window.user_name}/>
           </Grid>
         </ThemeProvider>
       </div>
@@ -164,4 +191,4 @@ class ProfileTutor extends Component {
   }
 }
 
-export default ProfileTutor;
+export default Profile;

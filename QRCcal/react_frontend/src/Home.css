@@ -1,0 +1,10 @@
+button { background-color: #DAA520; color: white; border: none; padding: 10px 20px; text-align: center; display: inline-block; font-size: 15px; border-radius: 6px; font-family: 
+  arial; font-weight: bold;
+}
+table, th, td { text-align: center; vertical-align: middle; font-family: arial;
+}
+h2 { padding-top: 25px;
+}
+#calendar {
+  padding-top: 25px;
+}

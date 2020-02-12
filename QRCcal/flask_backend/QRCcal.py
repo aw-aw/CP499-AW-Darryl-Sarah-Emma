@@ -1,4 +1,5 @@
-    from flask import Flask, render_template, json, request, jsonify
+from flask import Flask, render_template, json, request, jsonify, redirect, url_for, make_response
+from flask_cors import CORS, cross_origin
 from flask_cas import CAS
 from flask_cas import login_required
 from flask_cas import login
@@ -9,12 +10,12 @@ from random import randint
 
 #Class that represents a tutor and all necessary processing information about a tutor
 class Tutor:
-    def __init__(self,username,fullName,isLa,isAdmin,numberShifts,desiredShifts):
+    def __init__(self,username,name,isLa,isAdmin,desiredShifts):
         self.username = username
         self.la = isLa
         self.fullName=name
         self.admin=isAdmin
-        self.hours = 2*numberShifts
+        self.hours = 0;
         self.desired_shifts = desiredShifts
         self.preferences = []
         self.busy = []
@@ -38,13 +39,18 @@ def scheduleTutors(tutors_list, conn, cursor):
     day_list = ["MON", "TUES", "WED", "THURS", "SUN"]
     discipline_list = ["MATH", "CHEM", "PHYSICS","M_BIOLOGY", "ECONOMICS", "COMPUTER_SCIENCE", "NEUROSCIENCE", "E_SCIENCE", "STATISTICS"]
 
+    discipline_converter = {"MATH":"M", "CHEM":"Ch", "PHYSICS":"P", "M_BIOLOGY":"Ch", "ECONOMICS":"E", "COMPUTER_SCIENCE":"CS", "NEUROSCIENCE":"Ch", "E_SCIENCE":"Ch", "STATISTICS":"M"}
     #Create a list with every possible shift
-    every_shift = []
-    for discipline in discipline_list:
-        for day in day_list:
-            for time in time_list:
-                shift = (discipline, day+time)
-                every_shift.append(shift)
+    every_shift = [("Ch","SUN2"),("M", "SUN2"),("E","SUN2"),("Ch","Sun4"),("CS","SUN4"),("E","SUN4"),("M","SUN4"),("P","SUN4"),("Ch","SUN6"),("CS","SUN6"),("M","SUN6"),("Ch","SUN8"),("CS","SUN8"),("E","SUN8"),("M","SUN8"),("P","SUN8"),
+                  ("M","MON2"),("Ch","MON4"),("CS","MON4"),("P","MON4"),("Ch","MON6"),("E","MON6"),("M","MON6"),("Ch","MON8"),("CS","Mon8"),("E","MON8"),("M","MON8"),("P","MON8"),
+                  ("M","TUES2"),("Ch","TUES4"),("CS","TUES4"),("E","TUES4"),("M","TUES4"),("P","TUES4"),("Ch","TUES6"),("M","TUES6"),("P","TUES6"),("Ch","TUES8"),("CS","TUES8"),("E","TUES8"),("P","TUES8"),
+                  ("M","WED2"),("Ch","WED4"),("CS","WED4"),("E","WED4"),("M","WED4"),("P","WED4"),("Ch","WED6"),("CS","WED6"),("M","WED6"),("Ch","WED8"),("CS","WED8"),("E","WED8"),("M","WED8"),("P","WED8"),
+                  ("M","THURS2"),("Ch","THURS4"),("CS","THURS4"),("E","THURS4"),("M","THURS4"),("P","THURS4"),("Ch","THURS6"),("CS","THURS6"),("E","THURS6"),("M","THURS6"),("Ch","THURS8"),("CS","THURS8"),("E","THURS8"),("M","THURS8"),("P","THURS8")]
+    #for discipline in discipline_list:
+    #    for day in day_list:
+    #        for time in time_list:
+    #            shift = (discipline, day+time)
+    #            every_shift.append(shift)
 
     # Generate a randomized, non-repeating list of numbers from 0 -> num  of tutors - 1
     tie_breaker_list = random.sample(range(len(tutors_list)), len(tutors_list))
@@ -63,9 +69,9 @@ def scheduleTutors(tutors_list, conn, cursor):
     tutors = sorted(tutors_list, key = attrgetter('la','hours','tie_breaker'), reverse=True)
 
     #Set a variable to tell if the assigning is complete
-    finished_assigning = True
+    still_assigning = True
     #If assigning is not complete...
-    while finished_assigning:
+    while still_assigning:
         # If any tutor's maximum desired shifts has not been reached...
         if any(t.finished == False for t in tutors):
             # Loop through all the tutors in "rounds"
@@ -74,16 +80,25 @@ def scheduleTutors(tutors_list, conn, cursor):
                 if tutor.desired_shifts > 0:
                     # If there are still shifts in their preferred shift list...
                     if len(tutor.preferences) > 0:
+                        tutor_possible_shifts = []
                         #iterate through every shift in preferences (make a copy so that the loop functions reliably)
                         for pref in tutor.preferences[:]:
+                            for discipline in tutor.disciplines:
+                                temp_pref = (discipline_converter[discipline], pref)
+                                if temp_pref in every_shift:
+                                    tutor_possible_shifts.append(temp_pref)
+                        for pref in tutor_possible_shifts:
                             # If another tutor is scheduled for the shift...
                             if any(pref in all_tutors.scheduled_shifts for all_tutors in tutors):
                                 # Remove it from the current tutor's preferences
                                 tutor.preferences.remove(pref)
+                                tutor_possible_shifts.remove(pref)
+                                every_shift.remove(pref)
                             # If nobody is scheduled for the shift...
                             else:
                                 # Schedule the current tutor for the shift and remove it from their preferences
                                 tutor.preferences.remove(pref)
+                                tutor_possible_shifts.remove(pref)
                                 # Since the shift is assigned, remove it from the list of possible shifts
                                 every_shift.remove(pref)
                                 tutor.scheduled_shifts.append(pref)
@@ -104,18 +119,23 @@ def scheduleTutors(tutors_list, conn, cursor):
                         for shift in random_shifts:
                             # Attempt to schedule again...
                             attempted_shifts += 1
-                            # If the shift's discipline is one of the tutor's disciplines
-                            if shift[0] in tutor.disciplines:
-                                # If no tutors are scheduled for the shift, and the current tutor is not busy at the time of the shift...
-                                if not any(shift in every_tutor.scheduled_shifts for every_tutor in tutors) and not (shift[1] in tutor.busy):
-                                    # Schedule the current tutor for the shift
-                                    tutor.scheduled_shifts.append(shift)
-                                    # Since the shift is assigned, remove it from the list of possible shifts
-                                    every_shift.remove(shift)
-                                    # Since the current tutor has been scheduled for a shift, lower their desired shifts by one
-                                    tutor.desired_shifts -= 1
-                                    # Finish this tutor's turn
-                                    break
+                            for discipline in tutor.disciplines:
+                                short_discipline = discipline_converter[discipline]
+                                    # If the shift's discipline is one of the tutor's disciplines
+                                if shift[0] == short_discipline:
+                                    # If no tutors are scheduled for the shift, and the current tutor is not busy at the time of the shift...
+                                    if not any(shift in every_tutor.scheduled_shifts for every_tutor in tutors) and not (shift[1] in tutor.busy):
+                                        # Schedule the current tutor for the shift
+                                        tutor.scheduled_shifts.append(shift)
+                                        # Since the shift is assigned, remove it from the list of possible shifts
+                                        every_shift.remove(shift)
+                                        # Since the current tutor has been scheduled for a shift, lower their desired shifts by one
+                                        tutor.desired_shifts -= 1
+                                        # Finish this tutor's turn
+                                        break
+                            else:
+                                continue
+                            break
                             # If the program has tried to schedule the tutor for every open shift
                             if attempted_shifts == len(random_shifts):
                                 # Mark the tutor as finished - they cannot possibly take any more shifts
@@ -126,7 +146,7 @@ def scheduleTutors(tutors_list, conn, cursor):
                     tutor.finished = True
         # If a tutor is finished do not assign them to any more shifts
         else:
-            finished_assigning = False
+            still_assigning = False
     #When every tutor has been scheduled, return the updated list of tutors
     for tutor in tutors_list:
         for shift in tutor.scheduled_shifts:
@@ -134,8 +154,12 @@ def scheduleTutors(tutors_list, conn, cursor):
             conn.commit()
     cursor.execute("DELETE FROM preferredshifts;")
     conn.commit()
-
-
+    cursor.execute("DELETE FROM BusyShifts;")
+    conn.commit()
+    cursor.execute("DELETE isLa FROM users;")
+    conn.commit()
+    cursor.execute("DELETE desiredShifts FROM users;")
+    conn.commit()
 
 def populateTutors(cursor):
     tutor_list = []
@@ -143,12 +167,11 @@ def populateTutors(cursor):
     cursor.execute("SELECT * FROM users;")
     for row in cursor:
         username = row[0].encode('ascii','ignore')
-        numberShifts=row[1]
-        isLa=row[2]
-        isAdmin=row[3]
-        name=row[4].encode('ascii','ignore')
-        desiredShifts=row[5]
-        tutor=Tutor(username,name,isLa,isAdmin,numberShifts,desiredShifts)
+        isLa=row[1]
+        isAdmin=row[2]
+        name=row[3].encode('ascii','ignore')
+        desiredShifts=row[4]
+        tutor=Tutor(username,name,isLa,isAdmin,desiredShifts)
         tutor_list.append(tutor)
 
     cursor.execute("SELECT * FROM discipline;")
@@ -167,6 +190,11 @@ def populateTutors(cursor):
                 pref_shift=(discipline,shift)
                 tutor.preferences.append(pref_shift)
                 break
+    cursor.execute("SELECT * FROM assignedshifts;")
+    for row in cursor:
+        for tutor in tutor_list:
+            if tutor.username==row[1]:
+                tutor.hours += 2;
     cursor.execute("SELECT * FROM BusyShifts;")
     for row in cursor:
         shift=row[1].encode('ascii','ignore')
@@ -185,6 +213,7 @@ cursor=conn.cursor(buffered = True)
 tutor_list = populateTutors(cursor)
 
 app = Flask(__name__, static_folder="../react_frontend/build/static", template_folder="../react_frontend/build")
+cors = CORS(app)
 cas = CAS(app)
 app.config['CAS_SERVER'] = 'https://cas.coloradocollege.edu/cas/'
 app.config['CAS_AFTER_LOGIN'] = 'index'
@@ -193,34 +222,225 @@ app.config['CAS_AFTER_LOGIN'] = 'index'
 @login_required
 def index():
     username = cas.username
+     
+    print(cas.token)
+    conn = mariadb.connect(user='root', passwd='', db='qrcCal') 
+    cursor=conn.cursor(buffered = True)
+
+    tutor_list = populateTutors(cursor)
+    username = cas.username 
     in_database = "SELECT * FROM users WHERE username = \'" + username + "\';"
     cursor.execute(in_database)
     if cursor.fetchone() == None:
-        return render_template('index.html', type = "normal")
+        resp = make_response(render_template('index.html', type = "normal", user_name = username))
     else:
         is_admin = "SELECT isAdmin FROM users WHERE username = \'" + username + "\';"
         cursor.execute(is_admin)
         if cursor.fetchone()[0] == 0:
-            return render_template('index.html', type = "tutor")
+            resp = make_response(render_template('index.html', type = "tutor", user_name = username))
         else:
-            return render_template('index.html', type = "admin")
+            resp = make_response(render_template('index.html', type = "admin", user_name = username))
+    try:
+        cursor.fetchall()
+    except mariadb.Error as error:
+        print("Poo")
+    return resp
 
 @app.route('/post', methods=['POST', 'GET'])
-@login_required
 def postRequest():
     type = request.form['category']
     req = request.form['input']
-    cursor.execute(req)
     string=''
-    if type == "preferences":
-        for row in cursor:
-            string += row[2]
-            string += " : " + row[3] + "\n"
+    # type formatting: filename_what_request_does
+    # This gets all the prefered shifts for all tutors for a certain day
+    if type == "get_pref_shifts":
+        pref_conn = mariadb.connect(user='root', passwd='', db='qrcCal')
+        pref_cursor = pref_conn.cursor(buffered=True)
+        pref_cursor.execute(req)
+        all_data = []
+        for row in pref_cursor:
+            user_name = row[2]
+            discipline = row[3]
+            all_data.append([user_name, discipline])
+        for entry in all_data:
+            pref_cursor.execute("SELECT name FROM users WHERE username = \'" + entry[0] + "\';")
+            full_name = pref_cursor.fetchone()[0];
+            string += full_name + ": " + entry[1] + "\n"
+        pref_cursor.close()
+        pref_conn.close()
+    # This get a list of all the tutor's disciplines; primarily meant for a dropdown menu
+    elif type == "disciplines_dropdown":
+        disc_conn = mariadb.connect(user='root', passwd='', db='qrcCal')
+        disc_cursor = disc_conn.cursor(buffered=True)
+        disc_cursor.execute(req)
+        curr_discp = ""
+        for row in disc_cursor:
+            string += row[0] + " " 
+        disc_cursor.close() 
+        disc_conn.close()
+    # This handles the request from any button; there is no need for a return"
+    elif type == "button":
+        sched_conn = mariadb.connect(user='root', passwd='', db='qrcCal')
+        sched_cursor = sched_conn.cursor(buffered=True)
+        sched_cursor.execute(req)
+        sched_conn.commit()
+        sched_cursor.close() 
+        sched_conn.close()
+    elif type == "add_user":
+        sched_conn = mariadb.connect(user='root', passwd='', db='qrcCal')
+        sched_cursor = sched_conn.cursor(buffered=True)
         try:
-           cursor.fetchall()
-        except sqlite3.Error as error:
-            print("Failed to read data from table", error)
+            sched_cursor.execute(req)
+            sched_conn.commit()
+            string = "success"
+        except mariadb.IntegrityError as err:
+            string = "fail"
+        sched_cursor.close() 
+        sched_conn.close()
+    # This handles the request from the schedule tutors button, there is no need for a return
+    elif type == "schedule_shifts":
+        sched_conn = mariadb.connect(user='root', passwd='', db='qrcCal')
+        sched_cursor = sched_conn.cursor(buffered=True)
+        sched_cursor.execute(req)
+        # Call methods to actually schedule tutors
+        populateTutors()
+        scheduleTutors()
+        sched_conn.commit()
+        sched_cursor.close() 
+        sched_conn.close()
+    # This gets all the assigned shifts to the tutor
+    elif type == "get_assigned_shifts":
+        assigned_conn = mariadb.connect(user='root', passwd='', db='qrcCal')
+        assigned_cursor = assigned_conn.cursor(buffered=True)
+        assigned_cursor.execute(req)
+        all_data = []
+        for row in assigned_cursor:
+            shift = row[1]
+            username = row[2]
+            discipline = row[3]
+            all_data.append([shift,username, discipline])
+        for entry in all_data:
+            assigned_cursor.execute("SELECT name FROM users WHERE username = \'" + entry[1] + "\';")
+            full_name = assigned_cursor.fetchone()[0];
+            string += full_name + ": " + entry[0] + ": " + entry[2] + "\n"
+        assigned_cursor.close()
+        assigned_conn.close()
+    # This gets a list of the tutor's disciplines; meant for pure displaying of them
+    elif type == "get_discipline_list":
+        list_conn = mariadb.connect(user='root', passwd='', db='qrcCal')
+        list_cursor = list_conn.cursor(buffered=True)
+        list_cursor.execute(req)
+        for row in list_cursor:
+            discipline = row[1]
+            string += discipline + "\n"
+        list_cursor.close()
+        list_conn.close()
+    # This gets a list of all the usernames of the tutors
+    elif type == "get_username":
+        users_list_conn = mariadb.connect(user='root', passwd='', db='qrcCal')
+        users_list_cursor = users_list_conn.cursor(buffered=True)
+        users_list_cursor.execute(req)
+        for row in users_list_cursor:
+            username = row[0]
+            string += username + " "
+        users_list_cursor.close()
+        users_list_conn.close()
+    # This gets the current block
+    elif type == "get_current_block":
+        block_conn = mariadb.connect(user='root', passwd='', db='qrcCal')
+        block_cursor = block_conn.cursor(buffered=True)
+        block_cursor.execute(req)
+        string = str(block_cursor.fetchone()[0]);
+        block_cursor.close()
+        block_conn.close()
+    elif type == "get_next_block":
+        next_block_conn = mariadb.connect(user='root', passwd='', db='qrcCal')
+        next_block_cursor = next_block_conn.cursor(buffered=True)
+        next_block_cursor.execute(req)
+        block_number = next_block_cursor.fetchone()
+        if block_number[0] == 8:
+           string = "1"
+        else:
+           string = str(block_number[0] + 1)
+        next_block_cursor.close()
+        next_block_conn.close()
+    # This determines if the tutor was an LA last block or not
+    elif type == "get_la_status":
+        la_conn = mariadb.connect(user='root', passwd='', db='qrcCal')
+        la_cursor = la_conn.cursor(buffered=True)
+        la_cursor.execute(req)
+        for row in la_cursor:
+           isLA = row[1]
+           if isLA == 0:
+            string += "No"
+           elif isLA == 1:
+            string  += "Yes"  
+        la_cursor.close()
+        la_conn.close()
+    # This gets the number of shifts the tutor worked in the current (not preferences) block
+    elif type == "get_last_shifts":
+        shift_conn =mariadb.connect(user='root',  passwd='',db='qrcCal')
+        shift_cursor = shift_conn.cursor(buffered=True)
+        hours = 0
+        shift_cursor.execute(req)
+        for row in shift_cursor:
+            hours += 2
+        shift_cursor.close()
+        shift_conn.close()
+        return str(hours)
+    # This gets the maximum number of shifts the tutor can work
+    elif type == "get_max_shifts":
+        max_conn = mariadb.connect(user='root', passwd='', db='qrcCal')
+        max_cursor = max_conn.cursor(buffered=True)
+        max_cursor.execute(req)
+        for row in max_cursor:
+            string += "Current = " + str(row[0])
+        max_cursor.close()
+        max_conn.close()
+    elif type == "get_all_tutors":
+        all_conn = mariadb.connect(user='root', passwd='', db='qrcCal')
+        all_cursor = all_conn.cursor(buffered=True)
+        all_cursor.execute(req)
+        for row in all_cursor:
+            string += row[3]+ ": " + row[0] + "\n"
+        all_cursor.close()
+        all_conn.close()
+    elif type == "clear_tutor":
+        delete_conn = mariadb.connect(user='root', passwd='', db='qrcCal')
+        delete_cursor = delete_conn.cursor(buffered=True)
+        all_requests = req.split('$')
+        for r in all_requests:
+            delete_cursor.execute(r)
+            delete_conn.commit()
+        delete_cursor.close() 
+        delete_conn.close()
+    elif type == "get_busy_shifts":
+        busy_conn = mariadb.connect(user='root', passwd='', db='qrcCal')
+        busy_cursor = busy_conn.cursor(buffered=True)
+        busy_cursor.execute(req)
+        all_data = []
+        for row in busy_cursor:
+            shift = row[1]
+            username = row[2]
+            all_data.append([shift,username])
+        for entry in all_data:
+            busy_cursor.execute("SELECT name FROM users WHERE username = \'" + entry[1] + "\';")
+            full_name = busy_cursor.fetchone()[0];
+            string += full_name + ": " + entry[0] + "\n"
+        busy_cursor.close()
+        busy_conn.close()
+    elif type== "updated_user":
+        updated_conn=mariadb.connect(user='root',passwd='',db='qrcCal')  
+        updated_cursor=updated_conn.cursor(buffered=True)
+        print(req)
+        updated_cursor.execute(req) 
+        updated_conn.commit() 
+        updated_cursor.close()
+        updated_conn.close() 
     return string
+    
 
 if __name__=="__main__":
-    app.run()
+    app.run(debug=True)
+ 
+
