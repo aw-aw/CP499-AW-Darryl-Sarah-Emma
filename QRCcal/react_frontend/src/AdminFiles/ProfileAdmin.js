@@ -36,37 +36,6 @@ const theme = createMuiTheme({
   }
 });
 
-class TutorName extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      value: ''
-    };
-    this.handleChange = this.handleChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
-  }
-  handleChange(event) {
-    this.setState({value: event.target.value});
-  }
-  handleSubmit(event) {
-    alert('Username Added:' + this.state.value);
-    event.preventDefault();
-  }
-  render() {
-    return (
-      <Grid item xs>
-        <h3>Tutor Username</h3>
-        <form onSubmit={this.handleSubmit}>
-          <label fontFamily='Optima'>
-           Username:
-           <input type="text" value={this.state.value} onChange={this.handleChange} />
-          </label>
-        </form>
-      </Grid>
-    );
-  }
-}
-
 class UpdateLA extends React.Component {
   state = {
     selected: null,
@@ -90,7 +59,7 @@ class UpdateLA extends React.Component {
     if (!this.state.selected && !this.state.selected_two) {
       this.setState({ hasError: true });
     }
-    else {
+    else { 
      $.post("post", {input: `UPDATE users SET isLA='${this.state.selected_two}' WHERE username='${this.state.selected}'`, category:"button"});
     }
   }
@@ -141,7 +110,7 @@ class UpdateLA extends React.Component {
               <Grid container spacing={1}>
                 <Grid item xs>
                   <p></p>
-                  <Button onClick={() => this.handleClick()} size="large" color="primary" variant="outlined" startIcon={<SaveIcon />}>save</Button>
+                  <Button onClick={() => {this.handleClick(); close();}} size="large" color="primary" variant="outlined" startIcon={<SaveIcon />}>save</Button>
                 </Grid>
               </Grid>
             </div>
@@ -192,7 +161,7 @@ class ScheduleShifts extends React.Component {
       var full_request='UPDATE currentBlock SET currentBlock=\'' + value + '\' WHERE id=\'1\''
       $.post("post", {input: full_request, category: "schedule_shifts"});
     }
-  }
+  } 
   render() {
     const { classes } = this.props;
     const { selected, hasError } = this.state;
@@ -210,14 +179,19 @@ class ScheduleShifts extends React.Component {
         <Popup trigger={<Button size="large" color="primary" borderColor="secondary.main" variant="outlined" fullWidth="true">Schedule Shifts</Button>} modal={true}>
           {close => (
             <div align="center">
-              <h3 align="center">Click "Confirm" below to schedule shifts for Block 5</h3>
+              <h3 align="center">Click "Confirm" to Schedule Shifts for Next Block</h3>
               <FormControl style={{minWidth: 200}} error={hasError}>
                 <InputLabel>Current Block</InputLabel>
                 <Select value={selected} onChange={event => this.handleChange(event.target.value)}>
 		 {list}
                 </Select>
               </FormControl>
-              <Button onClick={()=> this.handleClick(this.state.selected)} size="large" color="primary" variant="outlined" startIcon={<SaveIcon />}>Confirm</Button>
+              <Grid container spacing={1}>
+                <Grid item xs>
+                  <p></p>
+                  <Button onClick={() => {this.handleClick(this.state.selected); close();}} size="large" color="primary" variant="outlined" startIcon={<SaveIcon />}>Confirm</Button>
+                </Grid>
+              </Grid>
             </div>
           )}
         </Popup>
@@ -251,8 +225,7 @@ class AddUser extends React.Component {
     this.setState({ selected_admin: value });
   }
   handleClick() {
-    $.post("post", {input: `INSERT INTO LoggedOutUser (username) VALUES ('${this.state.username_text}')`, category: "updated_user"});
-    $.post("post",  {input: `INSERT INTO users (username, isLA, isAdmin, name) VALUES ('${this.state.username_text}','${this.state.selected}','${this.state.selected_admin}','${this.state.fullname_text}')`, category:"add_user"}, function(data){this.setState({add_user_popup: data});}.bind(this));
+    $.post("post",  {input: `INSERT INTO users (username, isLA, isAdmin, name) VALUES ('${this.state.username_text}','${this.state.selected}','${this.state.selected_admin}','${this.state.fullname_text}')`, category:"add_user"}, function(data){this.setState({add_user_popup: data});}.bind(this)); 
   }
   render(){
     const { classes } = this.props;
@@ -269,7 +242,7 @@ class AddUser extends React.Component {
           {close => (
             <div align="center">
               <h2 align="center">Add New User</h2>
-              <Grid container spacing={12}>
+              <Grid container spacing={12} justify="center">
                 <Grid item xs={4}>
                 <div align="center">
                 <Grid item xs>
@@ -325,7 +298,6 @@ class AddUser extends React.Component {
             </div>
           )}
         </Popup>
-        <script>this.forceUpdate();</script>
        </Grid>
       </div>
     )}
@@ -351,8 +323,7 @@ class RemoveTutor extends React.Component {
     if (!this.state.selected) {
       this.setState({ hasError: true });
     }
-    else {
-      $.post("post", {input: `INSERT INTO LoggedOutUser (username) VALUES ('${this.state.selected}')`, category: "updated_user"});
+    else { 
       $.post("post", {input: `$DELETE FROM BusyShifts WHERE username='${this.state.selected}'$DELETE FROM assignedshifts WHERE username='${this.state.selected}'$DELETE FROM preferredshifts WHERE username='${this.state.selected}'$DELETE FROM discipline WHERE username='${this.state.selected}'$DELETE FROM users WHERE username='${this.state.selected}'`, category:"clear_tutor"});
     }
   }
@@ -380,18 +351,22 @@ class RemoveTutor extends React.Component {
                <Grid item xs>
                  <h3>Username to Delete:</h3>
                  <FormControl style={{minWidth: 200}} error={hasError}>
-                   <InputLabel>Tutor</InputLabel>
+                   <InputLabel>User</InputLabel>
                    <Select value={selected} onChange={event => this.handleChange(event.target.value)}>
                      {array}
                    </Select>
                  </FormControl>
                </Grid>
              </Grid>
-              <Button onClick={() => {this.handleClick(); close();} } size="large" color="primary" variant="outlined" startIcon={<SaveIcon />}>Remove</Button>
+             <Grid container spacing={1}>
+                <Grid item xs>
+                  <p></p>
+                  <Button onClick={() => {this.handleClick(); close();}} size="large" color="primary" variant="outlined" startIcon={<SaveIcon />}>Remove</Button>
+                </Grid>
+              </Grid>
             </div>
           )}
         </Popup>
-        <script>this.forceUpdate();</script>
        </div>
        </Grid>
     )}
@@ -421,7 +396,7 @@ class TutorDisciplines extends React.Component {
     if (!this.state.selected && !this.state.selected_two) {
       this.setState({ hasError: true });
     }
-    else {
+    else { 
      $.post("post", {input: `INSERT INTO discipline (discipline, username) VALUES ('${this.state.selected_two}','${this.state.selected}')`, category:"button"});
     }
   }
@@ -457,7 +432,7 @@ class TutorDisciplines extends React.Component {
             {close => (
               <div>
                 <h3 align="center">Add Disciplines for Tutor</h3>
-                <Grid container spacing={2}>
+                <Grid container spacing={2} justify="center">
                   <Grid item xs>
                     <FormControl style={{minWidth: 200}} error={hasError}>
                       <InputLabel>Username</InputLabel>
@@ -473,12 +448,15 @@ class TutorDisciplines extends React.Component {
                          {discipline_list}
                        </Select>
                      </FormControl>
-                   </Grid>
+                   </Grid> 
                 </Grid>
-                <Grid container spacing={1}>
-                 <Button onClick={() => this.handleClick()} size="large" color="primary" variant="outlined" startIcon={<SaveIcon />}>Add</Button>
-                 <Button onClick={() => this.handleClick2()} size="large" color="primary" variant="outlined" startIcon={<SaveIcon />}>Remove</Button>
-                </Grid>
+                <Grid container spacing={1} justify="center">
+                  <Grid item xs>
+                    <p></p>
+                    <Button onClick={() => this.handleClick()} size="large" color="primary" variant="outlined" startIcon={<SaveIcon />}>Add</Button>
+                    <Button onClick={() => this.handleClick2()} size="large" color="primary" variant="outlined" startIcon={<SaveIcon />}>Remove</Button>
+                  </Grid>
+              </Grid>
               </div>
             )}
           </Popup>
@@ -503,7 +481,7 @@ class ProfileAdmin extends Component {
               <RemoveTutor />
               <p />
               <TutorDisciplines />
-              <p />
+              <p /> 
               <ScheduleShifts />
               <p />
               <UpdateLA />
@@ -522,3 +500,4 @@ class ProfileAdmin extends Component {
 }
 
 export default ProfileAdmin;
+
