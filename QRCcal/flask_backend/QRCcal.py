@@ -252,20 +252,22 @@ def postRequest():
     type = request.form['category']
     req = request.form['input']
     string=''
+    conn = mariadb.connect(user='root', passwd='', db='qrcCal')
+    cursor = conn.cursor(buffered=True)
     # type formatting: filename_what_request_does
     # This gets all the prefered shifts for all tutors for a certain day
     if type == "get_pref_shifts":
-        pref_conn = mariadb.connect(user='root', passwd='', db='qrcCal')
-        pref_cursor = pref_conn.cursor(buffered=True)
-        pref_cursor.execute(req)
+        #pref_conn = mariadb.connect(user='root', passwd='', db='qrcCal')
+        #pref_cursor = pref_conn.cursor(buffered=True)
+        cursor.execute(req)
         all_data = []
-        for row in pref_cursor:
+        for row in cursor:
             user_name = row[2]
             shift = row[1]
             all_data.append([user_name, shift])
         for entry in all_data:
-            pref_cursor.execute("SELECT name FROM users WHERE username = \'" + entry[0] + "\';")
-            full_name = pref_cursor.fetchone()[0];
+            cursor.execute("SELECT name FROM users WHERE username = \'" + entry[0] + "\';")
+            full_name = cursor.fetchone()[0];
             entry.append(full_name)
             string += full_name + ": " + entry[1] + ": "
             discipline_conn=mariadb.connect(user='root',passwd='',db='qrcCal')
@@ -279,177 +281,177 @@ def postRequest():
             discipline_cursor.close()
             discipline_conn.close()
             string+="\n"
-        pref_cursor.close()
-        pref_conn.close()
     # This get a list of all the tutor's disciplines; primarily meant for a dropdown menu
     elif type == "disciplines_dropdown":
-        disc_conn = mariadb.connect(user='root', passwd='', db='qrcCal')
-        disc_cursor = disc_conn.cursor(buffered=True)
-        disc_cursor.execute(req)
+        #disc_conn = mariadb.connect(user='root', passwd='', db='qrcCal')
+        #disc_cursor = disc_conn.cursor(buffered=True)
+        cursor.execute(req)
         curr_discp = ""
-        for row in disc_cursor:
+        for row in cursor:
             string += row[0] + " "
-        disc_cursor.close()
-        disc_conn.close()
+        #disc_cursor.close()
+        #disc_conn.close()
     # This handles the request from any button; there is no need for a return"
     elif type == "button":
-        sched_conn = mariadb.connect(user='root', passwd='', db='qrcCal')
-        sched_cursor = sched_conn.cursor(buffered=True)
-        sched_cursor.execute(req)
-        sched_conn.commit()
-        sched_cursor.close()
-        sched_conn.close()
+        #sched_conn = mariadb.connect(user='root', passwd='', db='qrcCal')
+        #sched_cursor = sched_conn.cursor(buffered=True)
+        cursor.execute(req)
+        conn.commit()
+        #cursor.close()
+        #sched_conn.close()
     elif type == "add_user":
-        sched_conn = mariadb.connect(user='root', passwd='', db='qrcCal')
-        sched_cursor = sched_conn.cursor(buffered=True)
+        #sched_conn = mariadb.connect(user='root', passwd='', db='qrcCal')
+        #sched_cursor = sched_conn.cursor(buffered=True)
         try:
-            sched_cursor.execute(req)
-            sched_conn.commit()
+            cursor.execute(req)
+            conn.commit()
             string = "success"
         except mariadb.IntegrityError as err:
             string = "fail"
-        sched_cursor.close()
-        sched_conn.close()
+        #sched_cursor.close()
+        #sched_conn.close()
     # This handles the request from the schedule tutors button, there is no need for a return
     elif type == "schedule_shifts":
-        sched_conn = mariadb.connect(user='root', passwd='', db='qrcCal')
-        sched_cursor = sched_conn.cursor(buffered=True)
-        sched_cursor.execute(req)
+        #sched_conn = mariadb.connect(user='root', passwd='', db='qrcCal')
+        #sched_cursor = sched_conn.cursor(buffered=True)
+        cursor.execute(req)
         # Call methods to actually schedule tutors
         tutor_list = populateTutors()
         scheduleTutors(tutor_list)
-        sched_conn.commit()
-        sched_cursor.close()
-        sched_conn.close()
+        conn.commit()
+        #sched_cursor.close()
+        #sched_conn.close()
     # This gets all the assigned shifts to the tutor
     elif type == "get_assigned_shifts":
-        assigned_conn = mariadb.connect(user='root', passwd='', db='qrcCal')
-        assigned_cursor = assigned_conn.cursor(buffered=True)
-        assigned_cursor.execute(req)
+        #assigned_conn = mariadb.connect(user='root', passwd='', db='qrcCal')
+        #assigned_cursor = assigned_conn.cursor(buffered=True)
+        cursor.execute(req)
         all_data = []
-        for row in assigned_cursor:
+        for row in cursor:
             shift = row[1]
             username = row[2]
             discipline = row[3]
             all_data.append([shift,username, discipline])
         for entry in all_data:
-            assigned_cursor.execute("SELECT name FROM users WHERE username = \'" + entry[1] + "\';")
-            full_name = assigned_cursor.fetchone()[0];
+            cursor.execute("SELECT name FROM users WHERE username = \'" + entry[1] + "\';")
+            full_name = cursor.fetchone()[0];
             string += full_name + ": " + entry[0] + ": " + entry[2] + "\n"
-        assigned_cursor.close()
-        assigned_conn.close()
+        #assigned_cursor.close()
+        #assigned_conn.close()
     # This gets a list of the tutor's disciplines; meant for pure displaying of them
     elif type == "get_discipline_list":
-        list_conn = mariadb.connect(user='root', passwd='', db='qrcCal')
-        list_cursor = list_conn.cursor(buffered=True)
-        list_cursor.execute(req)
-        for row in list_cursor:
+        #list_conn = mariadb.connect(user='root', passwd='', db='qrcCal')
+        #list_cursor = list_conn.cursor(buffered=True)
+        cursor.execute(req)
+        for row in cursor:
             discipline = row[1]
             string += discipline + "\n"
-        list_cursor.close()
-        list_conn.close()
+        #list_cursor.close()
+        #list_conn.close()
     # This gets a list of all the usernames of the tutors
     elif type == "get_username":
-        users_list_conn = mariadb.connect(user='root', passwd='', db='qrcCal')
-        users_list_cursor = users_list_conn.cursor(buffered=True)
-        users_list_cursor.execute(req)
-        for row in users_list_cursor:
+        #users_list_conn = mariadb.connect(user='root', passwd='', db='qrcCal')
+        #users_list_cursor = users_list_conn.cursor(buffered=True)
+        cursor.execute(req)
+        for row in cursor:
             username = row[0]
             string += username + " "
-        users_list_cursor.close()
-        users_list_conn.close()
+        #users_list_cursor.close()
+        #users_list_conn.close()
     # This gets the current block
     elif type == "get_current_block":
-        block_conn = mariadb.connect(user='root', passwd='', db='qrcCal')
-        block_cursor = block_conn.cursor(buffered=True)
-        block_cursor.execute(req)
-        string = str(block_cursor.fetchone()[0]);
-        block_cursor.close()
-        block_conn.close()
+        #block_conn = mariadb.connect(user='root', passwd='', db='qrcCal')
+        #block_cursor = block_conn.cursor(buffered=True)
+        cursor.execute(req)
+        string = str(cursor.fetchone()[0]);
+        #block_cursor.close()
+        #block_conn.close()
     elif type == "get_next_block":
-        next_block_conn = mariadb.connect(user='root', passwd='', db='qrcCal')
-        next_block_cursor = next_block_conn.cursor(buffered=True)
-        next_block_cursor.execute(req)
-        block_number = next_block_cursor.fetchone()
+        #next_block_conn = mariadb.connect(user='root', passwd='', db='qrcCal')
+        #next_block_cursor = next_block_conn.cursor(buffered=True)
+        cursor.execute(req)
+        block_number = cursor.fetchone()
         if block_number[0] == 8:
            string = "1"
         else:
            string = str(block_number[0] + 1)
-        next_block_cursor.close()
-        next_block_conn.close()
+        #next_block_cursor.close()
+        #next_block_conn.close()
     # This determines if the tutor was an LA last block or not
     elif type == "get_la_status":
-        la_conn = mariadb.connect(user='root', passwd='', db='qrcCal')
-        la_cursor = la_conn.cursor(buffered=True)
-        la_cursor.execute(req)
-        for row in la_cursor:
+        #la_conn = mariadb.connect(user='root', passwd='', db='qrcCal')
+        #la_cursor = la_conn.cursor(buffered=True)
+        cursor.execute(req)
+        for row in cursor:
            isLA = row[1]
            if isLA == 0:
             string += "No"
            elif isLA == 1:
             string  += "Yes"
-        la_cursor.close()
-        la_conn.close()
+        #la_cursor.close()
+        #la_conn.close()
     # This gets the number of shifts the tutor worked in the current (not preferences) block
     elif type == "get_last_shifts":
-        shift_conn =mariadb.connect(user='root',  passwd='',db='qrcCal')
-        shift_cursor = shift_conn.cursor(buffered=True)
+        #shift_conn =mariadb.connect(user='root',  passwd='',db='qrcCal')
+        #shift_cursor = shift_conn.cursor(buffered=True)
         hours = 0
-        shift_cursor.execute(req)
-        for row in shift_cursor:
+        cursor.execute(req)
+        for row in cursor:
             hours += 2
-        shift_cursor.close()
-        shift_conn.close()
+        cursor.close()
+        conn.close()
         return str(hours)
     # This gets the maximum number of shifts the tutor can work
     elif type == "get_max_shifts":
-        max_conn = mariadb.connect(user='root', passwd='', db='qrcCal')
-        max_cursor = max_conn.cursor(buffered=True)
-        max_cursor.execute(req)
-        for row in max_cursor:
+        #max_conn = mariadb.connect(user='root', passwd='', db='qrcCal')
+        #max_cursor = max_conn.cursor(buffered=True)
+        cursor.execute(req)
+        for row in cursor:
             string += "Current = " + str(row[0])
-        max_cursor.close()
-        max_conn.close()
+        #max_cursor.close()
+        #max_conn.close()
     elif type == "get_all_tutors":
-        all_conn = mariadb.connect(user='root', passwd='', db='qrcCal')
-        all_cursor = all_conn.cursor(buffered=True)
-        all_cursor.execute(req)
-        for row in all_cursor:
+        #all_conn = mariadb.connect(user='root', passwd='', db='qrcCal')
+        #all_cursor = all_conn.cursor(buffered=True)
+        cursor.execute(req)
+        for row in cursor:
             string += row[3]+ ": " + row[0] + "\n"
-        all_cursor.close()
-        all_conn.close()
+        #all_cursor.close()
+        #all_conn.close()
     elif type == "clear_tutor":
-        delete_conn = mariadb.connect(user='root', passwd='', db='qrcCal')
-        delete_cursor = delete_conn.cursor(buffered=True)
+        #delete_conn = mariadb.connect(user='root', passwd='', db='qrcCal')
+        #delete_cursor = delete_conn.cursor(buffered=True)
         all_requests = req.split('$')
         for r in all_requests:
-            delete_cursor.execute(r)
-            delete_conn.commit()
-        delete_cursor.close()
-        delete_conn.close()
+            cursor.execute(r)
+            conn.commit()
+        #delete_cursor.close()
+        #delete_conn.close()
     elif type == "get_busy_shifts":
-        busy_conn = mariadb.connect(user='root', passwd='', db='qrcCal')
-        busy_cursor = busy_conn.cursor(buffered=True)
-        busy_cursor.execute(req)
+        #busy_conn = mariadb.connect(user='root', passwd='', db='qrcCal')
+        #busy_cursor = busy_conn.cursor(buffered=True)
+        cursor.execute(req)
         all_data = []
-        for row in busy_cursor:
+        for row in cursor:
             shift = row[1]
             username = row[2]
             all_data.append([shift,username])
         for entry in all_data:
-            busy_cursor.execute("SELECT name FROM users WHERE username = \'" + entry[1] + "\';")
-            full_name = busy_cursor.fetchone()[0];
+            cursor.execute("SELECT name FROM users WHERE username = \'" + entry[1] + "\';")
+            full_name = cursor.fetchone()[0];
             string += full_name + ": " + entry[0] + "\n"
-        busy_cursor.close()
-        busy_conn.close()
+        #busy_cursor.close()
+        #busy_conn.close()
     elif type== "updated_user":
-        updated_conn=mariadb.connect(user='root',passwd='',db='qrcCal')
-        updated_cursor=updated_conn.cursor(buffered=True)
-        print(req)
-        updated_cursor.execute(req)
-        updated_conn.commit()
-        updated_cursor.close()
-        updated_conn.close()
+        #updated_conn=mariadb.connect(user='root',passwd='',db='qrcCal')
+        #updated_cursor=updated_conn.cursor(buffered=True)
+        #print(req)
+        cursor.execute(req)
+        conn.commit()
+        #updated_cursor.close()
+        #updated_conn.close()
+    cursor.close()
+    conn.close()
     return string
 
 
