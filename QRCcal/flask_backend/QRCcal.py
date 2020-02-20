@@ -91,18 +91,15 @@ def scheduleTutors(tutors_list):
                 print(tutor.fullName, str(tutor.desired_shifts), tutor.preferences, tutor.disciplines)
                 # Stop on the first tutor that is still looking for shifts
                 if tutor.desired_shifts > 0:
-                    print("STILL WANT SHIFTS")
                     # If there are still shifts in their preferred shift list...
                     if len(tutor.legal_prefs) > 0:
-                        print("STILL HAVE PREFS")
                         #iterate through every shift in preferences (make a copy so that the loop functions reliably)
                         for pref in tutor.legal_prefs[:]:
                             # If another tutor is scheduled for the shift...
-                            if any(pref in all_tutors.scheduled_shifts for all_tutors in tutors):
-                                print("SHIFT WAS ALREADY TAKEN")
+                            if any(pref in all_tutors.scheduled_shifts for all_tutors in tutors) or any(pref[1] in scheduled_shift[1] for scheduled_shift in tutor.scheduled_shifts):
                                 # Remove it from the current tutor's preferences
                                 tutor.legal_prefs.remove(pref)
-                                # every_shift.remove(pref)
+                                every_shift.remove(pref)
                             # If nobody is scheduled for the shift...
                             else:
                                 # Schedule the current tutor for the shift and remove it from their preferences
@@ -112,12 +109,10 @@ def scheduleTutors(tutors_list):
                                 tutor.scheduled_shifts.append(pref)
                                 # Since the current tutor has been scheduled for a shift, lower their desired shifts by one
                                 tutor.desired_shifts -= 1
-                                print("PREFERENCE ASSIGNED")
                                 # Finish this tutor's turn
                                 break
                     # If all their preferred shifts have been claimed...
                     elif len(tutor.legal_prefs) == 0:
-                        print("OUT OF PREFERENCES")
                         # Randomly order the list of every possible shift
                         # random_shifts = every_shift.copy()
                         random_shifts = every_shift[:]
@@ -127,7 +122,6 @@ def scheduleTutors(tutors_list):
                         attempted_shifts = 0;
                         # Loop through every shift in the randomized list of possible shifts
                         for shift in random_shifts:
-                            print("TRYING A RANDOM SHIFT")
                             # Attempt to schedule again...
                             attempted_shifts += 1
                             for discipline in tutor.disciplines:
@@ -135,20 +129,18 @@ def scheduleTutors(tutors_list):
                                     # If the shift's discipline is one of the tutor's disciplines
                                 if shift[0] == short_discipline:
                                     # If no tutors are scheduled for the shift, and the current tutor is not busy at the time of the shift...
-                                    if not any(shift in every_tutor.scheduled_shifts for every_tutor in tutors) and not (shift[1] in tutor.busy):
+                                    if not any(shift in every_tutor.scheduled_shifts for every_tutor in tutors) and not (shift[1] in tutor.busy) and not any(shift[1] in scheduled_shift[1] for scheduled_shift in tutor.scheduled_shifts):
                                         # Schedule the current tutor for the shift
                                         tutor.scheduled_shifts.append(shift)
                                         # Since the shift is assigned, remove it from the list of possible shifts
                                         every_shift.remove(shift)
                                         # Since the current tutor has been scheduled for a shift, lower their desired shifts by one
                                         tutor.desired_shifts -= 1
-                                        print("SCHEDULED A RANDOM SHIFT")
                                         # Finish this tutor's turn
                                         break
                             else:
                                 # If the program has tried to schedule the tutor for every open shift
                                 if attempted_shifts == len(random_shifts):
-                                    print("NO MORE VALID SHIFTS!!!")
                                     # Mark the tutor as finished - they cannot possibly take any more shifts
                                     tutor.desired_shifts = 0
                                     tutor.finished = True
@@ -223,9 +215,6 @@ def populateTutors():
 
 tutor_list=[]
 
-conn = mariadb.connect(user='root', passwd='', db='qrcCal')
-cursor=conn.cursor(buffered = True)
-
 app = Flask(__name__, static_folder="../react_frontend/build/static", template_folder="../react_frontend/build")
 cors = CORS(app)
 cas = CAS(app)
@@ -236,11 +225,11 @@ app.config['CAS_AFTER_LOGIN'] = 'index'
 @login_required
 def index():
     username = cas.username
-     
-    conn = mariadb.connect(user='root', passwd='', db='qrcCal') 
+
+    conn = mariadb.connect(user='root', passwd='', db='qrcCal')
     cursor=conn.cursor(buffered = True)
 
-    username = cas.username 
+    username = cas.username
     in_database = "SELECT * FROM users WHERE username = \'" + username + "\';"
     cursor.execute(in_database)
     if cursor.fetchone() == None:
@@ -255,7 +244,7 @@ def index():
     try:
         cursor.fetchall()
     except mariadb.Error as error:
-        print("Poo")
+        error = "error occurred"
     return resp
 
 @app.route('/post', methods=['POST', 'GET'])
@@ -288,8 +277,8 @@ def postRequest():
             for i in range(3,len(entry)):
                 string+=entry[i] + " "
             discipline_cursor.close()
-            discipline_conn.close() 
-            string+="\n"         
+            discipline_conn.close()
+            string+="\n"
         pref_cursor.close()
         pref_conn.close()
     # This get a list of all the tutor's disciplines; primarily meant for a dropdown menu
@@ -299,8 +288,8 @@ def postRequest():
         disc_cursor.execute(req)
         curr_discp = ""
         for row in disc_cursor:
-            string += row[0] + " " 
-        disc_cursor.close() 
+            string += row[0] + " "
+        disc_cursor.close()
         disc_conn.close()
     # This handles the request from any button; there is no need for a return"
     elif type == "button":
@@ -308,7 +297,7 @@ def postRequest():
         sched_cursor = sched_conn.cursor(buffered=True)
         sched_cursor.execute(req)
         sched_conn.commit()
-        sched_cursor.close() 
+        sched_cursor.close()
         sched_conn.close()
     elif type == "add_user":
         sched_conn = mariadb.connect(user='root', passwd='', db='qrcCal')
@@ -319,7 +308,7 @@ def postRequest():
             string = "success"
         except mariadb.IntegrityError as err:
             string = "fail"
-        sched_cursor.close() 
+        sched_cursor.close()
         sched_conn.close()
     # This handles the request from the schedule tutors button, there is no need for a return
     elif type == "schedule_shifts":
@@ -330,7 +319,7 @@ def postRequest():
         tutor_list = populateTutors()
         scheduleTutors(tutor_list)
         sched_conn.commit()
-        sched_cursor.close() 
+        sched_cursor.close()
         sched_conn.close()
     # This gets all the assigned shifts to the tutor
     elif type == "get_assigned_shifts":
@@ -398,7 +387,7 @@ def postRequest():
            if isLA == 0:
             string += "No"
            elif isLA == 1:
-            string  += "Yes"  
+            string  += "Yes"
         la_cursor.close()
         la_conn.close()
     # This gets the number of shifts the tutor worked in the current (not preferences) block
@@ -436,7 +425,7 @@ def postRequest():
         for r in all_requests:
             delete_cursor.execute(r)
             delete_conn.commit()
-        delete_cursor.close() 
+        delete_cursor.close()
         delete_conn.close()
     elif type == "get_busy_shifts":
         busy_conn = mariadb.connect(user='root', passwd='', db='qrcCal')
@@ -454,18 +443,15 @@ def postRequest():
         busy_cursor.close()
         busy_conn.close()
     elif type== "updated_user":
-        updated_conn=mariadb.connect(user='root',passwd='',db='qrcCal')  
+        updated_conn=mariadb.connect(user='root',passwd='',db='qrcCal')
         updated_cursor=updated_conn.cursor(buffered=True)
         print(req)
-        updated_cursor.execute(req) 
-        updated_conn.commit() 
+        updated_cursor.execute(req)
+        updated_conn.commit()
         updated_cursor.close()
-        updated_conn.close() 
+        updated_conn.close()
     return string
-    
+
 
 if __name__=="__main__":
     app.run(debug=True)
- 
-
-
