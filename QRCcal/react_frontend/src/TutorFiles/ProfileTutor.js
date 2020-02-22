@@ -38,7 +38,7 @@ class Disciplines extends React.Component {
   render () {
   var user_name = this.props.user_name;
     return (
-      <Grid item xs>
+      <Grid item xs zeroMinWidth>
 	<div>
           <h3>Disciplines</h3>
           <Request type="get_discipline_list" sent={"SELECT * FROM discipline WHERE username=\'" + user_name + "\';"}/>
@@ -106,12 +106,12 @@ class LA extends React.Component {
   }
 }
 
-class ShiftsLastBlock extends React.Component {
+class ShiftsThisBlock extends React.Component {
   render() {
     var user_name = this.props.user_name;
     return (
-      <Grid item xs>
-        <h3>Hours Last Block</h3>
+      <Grid item xs wrap="noWrap">
+        <h3>Hours This Block</h3>
         <Request type="get_last_shifts" sent={"SELECT * FROM assignedshifts WHERE username=\'" + user_name + "\';"}/>
       </Grid>
     )
@@ -127,7 +127,7 @@ class CurrentShifts extends React.Component {
    const { current_block } = this.state;
    var user_name = this.props.user_name;
     return (
-      <Grid item xs style={{backgroundColor: '#FFFFFF', color: 'black', borderColor: 'primary', borderRadius: 16}}>
+      <Grid item xs zeroMinWidth>
        <div>
           <h3>My Current Shifts Block {this.state.current_block}</h3>
           <Request type="get_assigned_shifts" sent={"SELECT * FROM assignedshifts WHERE username=\'" + user_name + "\';"}/>
@@ -146,7 +146,7 @@ class PreferredShifts extends React.Component {
     var user_name = this.props.user_name;
     const { current_block } = this.state;
     return (
-      <Grid item xs>
+      <Grid item xs zeroMinWidth>
 	<div>
           <h3>My Preferred Shifts Block {this.state.current_block}</h3>
 	  <Request type="get_pref_shifts" sent={"SELECT * FROM preferredshifts WHERE username=\'" + user_name + "\';"}/>
@@ -165,7 +165,7 @@ class BusyShifts extends React.Component {
     const { current_block } = this.state;
     var user_name = this.props.user_name;
     return (
-      <Grid item xs>
+      <Grid item xs zeroMinWidth>
         <div>
           <h3>My Busy Shifts Block {this.state.current_block}</h3>
           <Request type="get_busy_shifts" sent={"SELECT * FROM BusyShifts WHERE username=\'" + user_name + "\';"}/>
@@ -185,7 +185,7 @@ class Profile extends Component {
             <Disciplines user_name={window.user_name}/>
             <MaxShifts user_name={window.user_name}/>
             <LA user_name={window.user_name}/>
-            <ShiftsLastBlock user_name={window.user_name} />
+            <ShiftsThisBlock user_name={window.user_name} />
           </Grid>
           <Grid container spacing={3} justify="center">
             <CurrentShifts user_name={window.user_name}/>

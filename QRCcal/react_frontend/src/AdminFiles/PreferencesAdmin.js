@@ -38,6 +38,7 @@ class ShiftPopUp extends Component{
         {close => (
           <div align="center">
             <h2>Current Preferences Entered By Tutors:</h2>
+            <h3>{this.props.shift}</h3>
             <Request type="get_pref_shifts" sent={"SELECT * FROM preferredshifts WHERE shift = \'" + short_shift + "\';"}/>
           </div>
         )}
@@ -69,53 +70,53 @@ class PreferencesAdmin extends Component{
           </Grid>
           <Grid item xs>
             <p>Sunday: {moment().isoWeekday(0).format('MM/DD')}</p>
-            <ShiftPopUp short_shift="SUN2" button="Ch M E"/>
+            <ShiftPopUp shift="Sunday (2-4)" short_shift="SUN2" button="Ch M E"/>
             <br />
-            <ShiftPopUp short_shift="SUN4" button="Ch CS E M P"/>
+            <ShiftPopUp shift="Sunday (4-6)" short_shift="SUN4" button="Ch CS E M P"/>
             <br />
-            <ShiftPopUp short_shift="SUN6" button="Ch CS M"/>
+            <ShiftPopUp shift="Sunday (6-8)" short_shift="SUN6" button="Ch CS M"/>
             <br />
-            <ShiftPopUp short_shift="SUN8" button="Ch CS E M P"/>
+            <ShiftPopUp shift="Sunday (8-10)" short_shift="SUN8" button="Ch CS E M P"/>
           </Grid>
           <Grid item xs>
             <p>Monday: {moment().isoWeekday(1).format('MM/DD')}</p>
-            <ShiftPopUp short_shift="MON2" button="M"/>
+            <ShiftPopUp shift="Monday (2-4)" short_shift="MON2" button="M"/>
             <br />
-            <ShiftPopUp short_shift="MON4" button="Ch CS P"/>
+            <ShiftPopUp shift="Monday (4-6)" short_shift="MON4" button="Ch CS P"/>
             <br />
-            <ShiftPopUp short_shift="MON6" button="Ch E M"/>
+            <ShiftPopUp shift="Monday (6-8)" short_shift="MON6" button="Ch E M"/>
             <br />
-            <ShiftPopUp short_shift="MON8" button="Ch CS E M P"/>
+            <ShiftPopUp shift="Monday (8-10)" short_shift="MON8" button="Ch CS E M P"/>
           </Grid>
           <Grid item xs>
             <p>Tuesday: {moment().isoWeekday(2).format('MM/DD')}</p>
-            <ShiftPopUp short_shift="TUES2"button="M"/>
+            <ShiftPopUp shift="Tuesday (2-4)" short_shift="TUES2"button="M"/>
             <br />
-            <ShiftPopUp short_shift="TUES4" button="Ch CS E M P"/>
+            <ShiftPopUp shift="Tuesday (4-6)" short_shift="TUES4" button="Ch CS E M P"/>
             <br />
-            <ShiftPopUp short_shift="TUES6" button="Ch M P"/>
+            <ShiftPopUp shift="Tuesday (6-8)" short_shift="TUES6" button="Ch M P"/>
             <br />
-            <ShiftPopUp short_shift="TUES8" button="Ch CS E P"/>
+            <ShiftPopUp shift="Tuesday (8-10)" short_shift="TUES8" button="Ch CS E P"/>
           </Grid>
           <Grid item xs>
             <p>Wednesday: {moment().isoWeekday(3).format('MM/DD')}</p>
-            <ShiftPopUp short_shift="WED2" button="M"/>
+            <ShiftPopUp shift="Wednesday (2-4)" short_shift="WED2" button="M"/>
             <br />
-            <ShiftPopUp short_shift="WED4" button="Ch CS E M P"/>
+            <ShiftPopUp shift="Wednesday (4-6)" short_shift="WED4" button="Ch CS E M P"/>
             <br />
-            <ShiftPopUp short_shift="WED6" button="Ch CS M"/>
+            <ShiftPopUp shift="Wednesday (6-8)" short_shift="WED6" button="Ch CS M"/>
             <br />
-            <ShiftPopUp short_shift="WED8" button="Ch CS E M P"/>
+            <ShiftPopUp shift="Wednesday (8-10)" short_shift="WED8" button="Ch CS E M P"/>
           </Grid>
           <Grid item xs>
             <p>Thursday: {moment().isoWeekday(4).format('MM/DD')}</p>
-            <ShiftPopUp short_shift="THURS2" button="M"/>
+            <ShiftPopUp shift="Thursday (2-4)" short_shift="THURS2" button="M"/>
             <br />
-            <ShiftPopUp short_shift="THURS4" button="Ch CS E M P"/>
+            <ShiftPopUp shift="Thursday (4-6)" short_shift="THURS4" button="Ch CS E M P"/>
             <br />
-            <ShiftPopUp short_shift="THURS6" button="Ch CS E M"/>
+            <ShiftPopUp shift="Thursday (8-8)" short_shift="THURS6" button="Ch CS E M"/>
             <br />
-            <ShiftPopUp short_shift="THURS8" button="Ch CS E M P"/>
+            <ShiftPopUp shift="Thursday (8-10)" short_shift="THURS8" button="Ch CS E M P"/>
           </Grid>
           <Grid item xs>
             <p id="ptop2">Friday: {moment().isoWeekday(5).format('MM/DD')}</p>
@@ -133,7 +134,7 @@ class PreferencesAdmin extends Component{
           </Grid>
         </Grid>
         <h4 align="center">Listed on the buttons for each shift are the disciplines that can be filled.</h4>
-        <h4 align="center">Click on a button to see the preferences of other tutors.</h4>
+        <h4 align="center">Click on a button to see the preferences entered by tutors for Block {this.state.current_block}.</h4>
       </ThemeProvider>
     </div>
     );

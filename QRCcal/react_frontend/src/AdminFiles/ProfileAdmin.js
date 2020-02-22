@@ -33,7 +33,7 @@ const theme = createMuiTheme({
   },
   typography: {
     fontFamily: 'Optima',
-  }
+  },
 });
 
 class UpdateLA extends React.Component {
@@ -125,9 +125,9 @@ class UpdateLA extends React.Component {
 class TutorList extends React.Component {
   render() {
     return (
-      <Grid>
+      <Grid item xs zeroMinWidth>
         <h3 align="center">All Tutors</h3>
-        <Request type="get_all_tutors" sent={"SELECT * FROM users WHERE isAdmin=0"}/>
+        <Typography noWrap><Request type="get_all_tutors" sent={"SELECT * FROM users WHERE isAdmin=0"}/></Typography>
       </Grid>
     )
   }
@@ -136,7 +136,7 @@ class TutorList extends React.Component {
 class AdminList extends React.Component {
   render() {
     return (
-      <Grid item xs>
+      <Grid item xs zeroMinWidth>
         <h3 align="center">All Admins</h3>
         <Request type="get_all_tutors" sent={"SELECT * FROM users WHERE isAdmin=1"}/>
       </Grid>
@@ -482,9 +482,9 @@ class ProfileAdmin extends Component {
               <p />
               <TutorDisciplines />
               <p /> 
-              <ScheduleShifts />
-              <p />
               <UpdateLA />
+              <p />
+              <ScheduleShifts />
             </Grid>
             <Grid item xs={4}>
               <AdminList />
