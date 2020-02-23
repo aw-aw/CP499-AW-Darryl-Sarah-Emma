@@ -43,7 +43,8 @@ class UpdateLA extends React.Component {
     isActive: true,
     isAdd: true,
     all_users: null,
-    selected_two: null
+    selected_two: null,
+    add_user_popup: null
   };
   handleChange(value) {
     this.setState({ selected: value });
@@ -60,12 +61,12 @@ class UpdateLA extends React.Component {
       this.setState({ hasError: true });
     }
     else { 
-     $.post("post", {input: `UPDATE users SET isLA='${this.state.selected_two}' WHERE username='${this.state.selected}'`, category:"button"});
+     $.post("post", {input: `UPDATE users SET isLA='${this.state.selected_two}' WHERE username='${this.state.selected}'`, category:"add_user"}, function(data){this.setState({add_user_popup: data});}.bind(this));
     }
   }
   render() {
     const { classes } = this.props;
-    const { selected, selected_two, hasError, isActive } = this.state;
+    const { selected, selected_two, hasError, isActive, add_user_popup } = this.state;
     var split_users;
     var array = [];
     if (this.state.all_users !== null) {
@@ -107,10 +108,15 @@ class UpdateLA extends React.Component {
                    </FormControl>
                 </Grid>
               </Grid>
-              <Grid container spacing={1}>
-                <Grid item xs>
+             <Grid container spacing={12}>
+                <Grid item xs={12}>
                   <p></p>
-                  <Button onClick={() => {this.handleClick(); close();}} size="large" color="primary" variant="outlined" startIcon={<SaveIcon />}>save</Button>
+                  <Popup onOpen={() => this.handleClick()} trigger={<Button size="large" color="primary" variant="outlined" startIcon={<SaveIcon />}>save</Button>}>
+                    {close => (
+                      <p>{add_user_popup}</p>
+                    )}
+                  </Popup>
+                  <p></p>
                 </Grid>
               </Grid>
             </div>
@@ -125,7 +131,7 @@ class UpdateLA extends React.Component {
 class TutorList extends React.Component {
   render() {
     return (
-      <Grid item xs zeroMinWidth>
+      <Grid item xs style={{overflow: 'auto'}}>
         <h3 align="center">All Tutors</h3>
         <Typography noWrap><Request type="get_all_tutors" sent={"SELECT * FROM users WHERE isAdmin=0"}/></Typography>
       </Grid>
@@ -136,9 +142,9 @@ class TutorList extends React.Component {
 class AdminList extends React.Component {
   render() {
     return (
-      <Grid item xs zeroMinWidth>
+      <Grid item xs style={{overflow: 'auto'}}>
         <h3 align="center">All Admins</h3>
-        <Request type="get_all_tutors" sent={"SELECT * FROM users WHERE isAdmin=1"}/>
+        <Typography noWrap><Request type="get_all_tutors" sent={"SELECT * FROM users WHERE isAdmin=1"}/></Typography>
       </Grid>
     )
   }
@@ -147,7 +153,8 @@ class AdminList extends React.Component {
 class ScheduleShifts extends React.Component {
   state = {
     selected: null,
-    hasError: false
+    hasError: false,
+    add_user_popup: null
   };
   handleChange(value) {
     this.setState({ selected: value });
@@ -164,7 +171,7 @@ class ScheduleShifts extends React.Component {
   } 
   render() {
     const { classes } = this.props;
-    const { selected, hasError } = this.state;
+    const { selected, add_user_popup, hasError } = this.state;
     var id=this.props.getId;
     const list= [<MenuItem value={1}>Block 1</MenuItem>,
             <MenuItem value={2}>Block 2</MenuItem>,
@@ -186,10 +193,15 @@ class ScheduleShifts extends React.Component {
 		 {list}
                 </Select>
               </FormControl>
-              <Grid container spacing={1}>
-                <Grid item xs>
+             <Grid container spacing={12}>
+                <Grid item xs={12}>
                   <p></p>
-                  <Button onClick={() => {this.handleClick(this.state.selected); close();}} size="large" color="primary" variant="outlined" startIcon={<SaveIcon />}>Confirm</Button>
+                    <Popup onOpen={() => this.handleClick(this.state.selected)} trigger={<Button size="large" color="primary" variant="outlined" startIcon={<SaveIcon />}>Confirm</Button>}>
+                      {close => (
+                        <p>{add_user_popup}</p>
+                      )}
+                    </Popup>
+                  <p></p>
                 </Grid>
               </Grid>
             </div>
@@ -242,10 +254,10 @@ class AddUser extends React.Component {
           {close => (
             <div align="center">
               <h2 align="center">Add New User</h2>
-              <Grid container spacing={12} justify="center">
+              <Grid container spacing={12} justify="center" style={{overflow: 'auto'}}>
                 <Grid item xs={4}>
                 <div align="center">
-                <Grid item xs>
+                <Grid item xs justify="center">
                   <h3>Enter Username</h3>
                     <form autoComplete="off">
                       <FormControl>
@@ -254,27 +266,27 @@ class AddUser extends React.Component {
                       </FormControl>
                     </form>
                 </Grid>
-                <Grid item xs>
+                <Grid item xs justify="center">
                    <h3>Enter Name</h3>
                     <form noValidate autoComplete="off">
                       <FormControl>
-                        <InputLabel>Full Name</InputLabel>
+                        <InputLabel>Name</InputLabel>
                         <Input value={fullname_text} onChange={event => this.handleChange2(event.target.value)} />
                       </FormControl>
                     </form>
                 </Grid>
-                <Grid item xs>
+                <Grid item xs justify="center">
                   <h3>LA?</h3>
-                   <FormControl style={{minWidth: 200}}>
-                     <InputLabel>Learning Assistant</InputLabel>
+                   <FormControl style={{minWidth: 100}}>
+                     <InputLabel>LA</InputLabel>
                       <Select value={selected} onChange={event => this.handleChange3(event.target.value)}>
                         {la_list}
                       </Select>
                    </FormControl>
                 </Grid>
-                <Grid item xs>
+                <Grid item xs justify="center">
                    <h3>Admin or Tutor</h3>
-                   <FormControl style={{minWidth: 200}}>
+                   <FormControl style={{minWidth: 100}}>
                      <InputLabel>Admin/Tutor</InputLabel>
                       <Select value={selected_admin} onChange={event => this.handleChange4(event.target.value)}>
                         {admin_tutor_list}
@@ -311,6 +323,7 @@ class RemoveTutor extends React.Component {
     isActive: true,
     isAdd: true,
     all_users: null,
+    add_user_popup: null
   };
   handleChange(value) {
     this.setState({ selected: value });
@@ -329,7 +342,7 @@ class RemoveTutor extends React.Component {
   }
   render(){
     const { classes } = this.props;
-    const { selected, hasError, isActive } = this.state;
+    const { selected, add_user_popup, hasError, isActive } = this.state;
     var split_users;
     var array = [];
     if (this.state.all_users !== null) {
@@ -358,10 +371,15 @@ class RemoveTutor extends React.Component {
                  </FormControl>
                </Grid>
              </Grid>
-             <Grid container spacing={1}>
-                <Grid item xs>
+             <Grid container spacing={12}>
+                <Grid item xs={12}>
                   <p></p>
-                  <Button onClick={() => {this.handleClick(); close();}} size="large" color="primary" variant="outlined" startIcon={<SaveIcon />}>Remove</Button>
+                    <Popup onOpen={() => this.handleClick()} trigger={<Button size="large" color="primary" variant="outlined" startIcon={<SaveIcon />}>Remove</Button>}>
+                      {close => (
+                        <p>{add_user_popup}</p>
+                      )}
+                    </Popup>
+                  <p></p>
                 </Grid>
               </Grid>
             </div>
@@ -380,7 +398,8 @@ class TutorDisciplines extends React.Component {
     isActive: true,
     isAdd: true,
     all_users: null,
-    selected_two: null
+    selected_two: null,
+    add_user_popup: null
   };
   handleChange(value) {
     this.setState({ selected: value });
@@ -397,15 +416,15 @@ class TutorDisciplines extends React.Component {
       this.setState({ hasError: true });
     }
     else { 
-     $.post("post", {input: `INSERT INTO discipline (discipline, username) VALUES ('${this.state.selected_two}','${this.state.selected}')`, category:"button"});
+     $.post("post", {input: `INSERT INTO discipline (discipline, username) VALUES ('${this.state.selected_two}','${this.state.selected}')`, category:"add_user"}, function(data){this.setState({add_user_popup: data});}.bind(this));
     }
   }
   handleClick2() {
-    $.post("post", {input: `DELETE FROM discipline WHERE username='${this.state.selected}' AND discipline='${this.state.selected_two}'`, category:"button"});
+    $.post("post", {input: `DELETE FROM discipline WHERE username='${this.state.selected}' AND discipline='${this.state.selected_two}'`, category:"add_user"}, function(data){this.setState({add_user_popup: data});}.bind(this));
   }
   render() {
     const { classes } = this.props;
-    const { selected, hasError, isActive, selected_two } = this.state;
+    const { add_user_popup, selected, hasError, isActive, selected_two } = this.state;
     var split_users;
     var array = [];
     if (this.state.all_users !== null) {
@@ -450,13 +469,20 @@ class TutorDisciplines extends React.Component {
                      </FormControl>
                    </Grid> 
                 </Grid>
-                <Grid container spacing={1} justify="center">
-                  <Grid item xs>
-                    <p></p>
-                    <Button onClick={() => this.handleClick()} size="large" color="primary" variant="outlined" startIcon={<SaveIcon />}>Add</Button>
-                    <Button onClick={() => this.handleClick2()} size="large" color="primary" variant="outlined" startIcon={<SaveIcon />}>Remove</Button>
+                <Grid container spacing={12}>
+                  <Grid item xs={12}>
+                    <Popup onOpen={() => this.handleClick()} trigger={<Button size="large" color="primary" variant="outlined" startIcon={<SaveIcon />}>Add</Button>}>
+                      {close => (
+                        <p>{add_user_popup}</p>
+                      )}
+                    </Popup>
+                    <Popup onOpen={() => this.handleClick2()} trigger={<Button size="large" color="primary" variant="outlined" startIcon={<SaveIcon />}>Remove</Button>}>
+                      {close => (
+                        <p>{add_user_popup}</p>
+                      )}
+                    </Popup>
                   </Grid>
-              </Grid>
+                </Grid>
               </div>
             )}
           </Popup>
@@ -474,22 +500,28 @@ class ProfileAdmin extends Component {
       <div>
         <ThemeProvider theme={theme}>
         <h1 align="center">{window.user_name} Profile</h1>
-          <Grid container spacing={12}>
-            <Grid item xs={4}>
+          <Grid container spacing={12} justify="space-between" style={{overflow: 'auto'}}>
+            <Grid item xs={2}>
               <AddUser />
-              <p />
+            </Grid>
+            <Grid item xs={2}> 
               <RemoveTutor />
-              <p />
+            </Grid>
+            <Grid item xs={2}>
               <TutorDisciplines />
-              <p /> 
+            </Grid>
+            <Grid item xs={2}>
               <UpdateLA />
-              <p />
+            </Grid>
+            <Grid item xs={2}>
               <ScheduleShifts />
             </Grid>
-            <Grid item xs={4}>
+          </Grid>
+          <Grid container spacing={12} style={{maxHeight: 225, overflow: 'auto'}}>
+            <Grid item xs={6}>
               <AdminList />
             </Grid>
-            <Grid item xs={4}>
+            <Grid item xs={6}>
               <TutorList />
             </Grid>
           </Grid>

@@ -281,6 +281,34 @@ def postRequest():
             discipline_cursor.close()
             discipline_conn.close()
             string+="\n"
+    # This gets the username and abbreviated disciplines for a tutor
+    if type == "get_shifts":
+        cursor.execute(req)
+        all_data = []
+        for row in cursor:
+            user_name = row[2]
+            all_data.append([user_name])
+        for entry in all_data:
+            discipline2_conn=mariadb.connect(user='root',passwd='',db='qrcCal')
+            discipline2_cursor=discipline2_conn.cursor(buffered=True)
+            discipline2_cursor.execute("SELECT discipline FROM discipline WHERE username=\'" + entry[0] + "\';")
+            for value in discipline2_cursor:
+                discipline = value[0]
+                if discipline == "MATH" or "STATISTICS":
+                    entry.append("M")
+                elif discipline == "CHEM" or "M_BIOLOGY" or "NEUROSCIENCE" or "E_SCIENCE":
+                    entry.append("Ch")
+                elif discipline == "PHYSICS":
+                    entry.append("P")
+                elif discipline == "ECONOMICS":
+                    entry.append("E")
+                elif discipline == "COMPUTER_SCIENCE":
+                    entry.append("CS")
+            for i in range(3, len(entry)):
+                string += entry[i] + " "
+            discipline2_cursor.close()
+            discipline2_conn.close()
+            string += "\n"
     # This get a list of all the tutor's disciplines; primarily meant for a dropdown menu
     elif type == "disciplines_dropdown":
         #disc_conn = mariadb.connect(user='root', passwd='', db='qrcCal')

@@ -60,7 +60,7 @@ class PreferencesAdmin extends Component{
         <h1 align="center">Block {this.state.current_block} Preferred Shifts</h1>
         <h3 align="center">Shift Key:</h3>
         <h4 align="center">Ch = Chemistry / CS = Computer Science / E = Economics / M = Mathematics / P = Physics</h4>
-        <Grid container spacing={2} justify="center">
+        <Grid container spacing={2} justify="center" style={{overflow: 'auto'}}>
           <Grid item xs>
             <p id="ptop">Shift Times</p>
             <p>2:00pm-4:00pm</p>

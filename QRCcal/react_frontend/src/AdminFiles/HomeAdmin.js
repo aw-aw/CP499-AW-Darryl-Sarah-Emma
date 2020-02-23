@@ -53,10 +53,6 @@ class ShiftPopUp extends Component{
   handleClick2() {
     $.post("post", {input: `DELETE FROM assignedshifts WHERE username='${this.state.username_remove}' AND shift='${this.props.short_shift}'`, category: "add_user"}, function(data){this.setState({add_user_popup: data});}.bind(this));
   }
-  handleClick(shift) {
-    this.setState({ shift: shift });
-    $.post("post", {input: "SELECT username FROM assignedshifts WHERE username='${this.state.shift}'", category:"get_username"}, function(data){this.setState({all_users2: data});}.bind(this));
-  }
   render(){
   const { all_users, selected, username_add, username_remove, hasError, add_user_popup, all_users2 } = this.state;
   var short_shift = this.props.short_shift;
@@ -67,15 +63,6 @@ class ShiftPopUp extends Component{
     for(var i = 0; i < split_users.length - 1; i++) {
       const item = <MenuItem value={split_users[i]}>{split_users[i]}</MenuItem>;
       array.push(item)
-    }
-  }
-  var split_users2;
-  var array2 = [];
-  if (this.state.all_users2 !== null) {
-    split_users2 = this.state.all_users2.split(" ")
-    for(var k = 0; k < split_users2.length - 1; k++) {
-      const item = <MenuItem value={split_users2[k]}>{split_users2[k]}</MenuItem>;
-      array2.push(item)
     }
   }
   return(
@@ -90,7 +77,7 @@ class ShiftPopUp extends Component{
            {close => (
               <div align="center">
                 <h2>Add Shift ({this.props.short_shift})</h2>
-                <Grid container spacing={12} justify="center">
+                <Grid container spacing={12} justify="center" style={{overflow: 'auto'}}>
                   <Grid item xs={4}>
                     <div align="center">
                      <Grid item xs>
@@ -122,8 +109,8 @@ class ShiftPopUp extends Component{
            <Popup trigger={<Button onClick={() => {this.handleClick3({short_shift});}} size="large" color="primary" variant="outlined">Remove Shift</Button>} modal={true}>
            {close => (
               <div align="center">
-                <h2>Add Shift ({this.props.short_shift})</h2>
-                <Grid container spacing={12} justify="center">
+                <h2>Remove Shift ({this.props.short_shift})</h2>
+                <Grid container spacing={12} justify="center" style={{overflow: 'auto'}}>
                   <Grid item xs={4}>
                     <div align="center">
                      <Grid item xs>
@@ -172,7 +159,7 @@ class HomeAdmin extends Component {
         <h1 align="center">Block {this.state.current_block} Shifts</h1>
         <h3 align="center">Shift Key:</h3>
         <h4 align="center">Ch = Chemistry / CS = Computer Science / E = Economics / M = Mathematics / P = Physics</h4>
-        <Grid container spacing={2}>
+        <Grid container spacing={2} style={{overflow: 'auto'}}>
            <Grid item xs>
             <p id="ptop">Shift Times</p>
             <p>2:00pm-4:00pm</p>

@@ -8,9 +8,11 @@ import {
 import HomeAdmin from "./HomeAdmin";
 import PreferencesAdmin from "./PreferencesAdmin";
 import ProfileAdmin from "./ProfileAdmin";
+import OverviewAdmin from "./OverviewAdmin";
 import Logo from "../logo.png";
 import Image from "react-image-resizer";
 import { createMuiTheme } from '@material-ui/core/styles';
+
 const theme = createMuiTheme({
   palette: {
     primary: {
@@ -34,7 +36,7 @@ class MainAdmin extends Component {
       <BrowserRouter>
         <div>
           <div style={{display: "flex"}}>
-            <Button style={{marginRiight: "auto"}} color="secondary" variant="contained" href="https://www.coloradocollege.edu/offices/qrc/" target="_blank">Colorado College QRC Page</Button>
+            <Button style={{marginRight: "auto"}} color="secondary" variant="contained" href="https://www.coloradocollege.edu/offices/qrc/" target="_blank">Colorado College QRC Page</Button>
           </div>
           <p></p>
           <div style={{display: "flex"}}>
@@ -45,11 +47,13 @@ class MainAdmin extends Component {
             <li><NavLink exact to="/">Home</NavLink></li>
             <li><NavLink to="/preferences">Preferences</NavLink></li>
             <li><NavLink to="/profile">Profile</NavLink></li>
+            <li><NavLink to="/overview">Overview</NavLink></li>
           </ul>
           <div className="content">
              <Route exact path="/" component={HomeAdmin}/>
-	           <Route path="/preferences" component={PreferencesAdmin}/>
-	           <Route path="/profile" component={ProfileAdmin}/>
+	     <Route path="/preferences" component={PreferencesAdmin}/>
+	     <Route path="/profile" component={ProfileAdmin}/>
+             <Route path="/overview" component={OverviewAdmin}/>
           </div>
         </div>
       </BrowserRouter>
